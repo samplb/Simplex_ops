@@ -24,6 +24,12 @@ using namespace std;
 
 //vector<double>  arrayIn(string l);
 int main(int argc, char** argv) {
+    string werteuebergabe;
+    int z=0;
+    int n=0;
+    int k=0;
+    vector<double> c;
+    vector<double> b;
     
     ifstream file;
     filebuf *x=file.rdbuf();
@@ -37,26 +43,24 @@ int main(int argc, char** argv) {
     } catch(...) {
         cout<<"Error with File-Reading"<<endl;
     }
-    int z=0;
-    int n=0;
-    int k=0;
-    vector<double> c;
-    vector<double> b;
-    string l;
     char inputtemp[100];
     vector<double> temp;
-    int arraylenght=1;
-    int zeile=1;
-//    l=inputtemp.
+//   adds all values to array inputtemp
     file.read(inputtemp,100);
-    file.
-        cout<<inputtemp<<endl;z++;
-        temp.push_back(inputtemp[0]);
-        l.append(inputtemp);
-        cout<<"string:"<<l<<endl;
-//    };
-//    cout<<"test:"<<n[50]<<":"<<sizeof(n)<<"_"<<z<<endl;
-////    cout<<"string"<<l<<endl;
+//    converts char in string
+    werteuebergabe.append(inputtemp);
+//  cout<<"string:"<<werteuebergabe<<endl;
+//    converts the string in an vector<double>
+    Convertdouble cs;
+    temp=cs.convertstring(werteuebergabe);
+/* output of double-values in vector.
+    cout << "myvector contains:";
+  for (unsigned i=0; i<temp.size(); ++i)
+    cout << ' ' << temp[i]<<endl;
+*/
+    n=temp[0];
+    k=temp[1];
+    cout<<"1:"<<n<<"  k:"<<k<<endl;
     file.close();
     x->close();
     return 0;
