@@ -15,13 +15,9 @@
 #define SOLVE_H
 
 class Solve {
-private:
-    int n;
-    int k;
 public:
     Solve();
-    double* lpsolve();
-    double* lpsolve(int n, double *c, int k, double **A, double *b);
+    double* lpsolve(int n, double* c, int k, double** A, double* b);
     ~Solve();
 };
 
