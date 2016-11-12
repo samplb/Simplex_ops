@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     int k=0;
     ifstream file;
     filebuf *x=file.rdbuf();
-    string path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops.txt";
+    string path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops2.txt";
     
     //-------------------------------------------------------------------------------------------------------------------
     
@@ -47,10 +47,10 @@ int main(int argc, char** argv) {
     } catch(...) {
         cout<<"Error with File-Reading"<<endl;
     }
-    char inputtemp[100];
+    char inputtemp[1000];
     vector<double> temp;
 //   adds all values to array inputtemp
-    file.read(inputtemp,100);
+    file.read(inputtemp,1000);
 //    closes Filestreams
     file.close();
     x->close();
@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
 //    cout<<werteuebergabe<<endl;
 //    converts the string in an vector<double>
 //    */
-    
+//    cout<<"Array: "<<werteuebergabe<<endl;
     Convertdouble cs;
     temp=cs.convertstring(werteuebergabe);
 /* output of double-values in vector.
@@ -86,34 +86,31 @@ int main(int argc, char** argv) {
     for(int i=0; i<n;i++){
         A[i]=new double[k];
     }
-//    cout<<"c: _ ";
+    cout<<"c: ";
     for(int vc=0;vc<n;vc++){
         c[vc]=temp[vc+2];
-//        cout<<c[vc]<<"  ";
+        cout<<c[vc]<<"  ";
     }
     zaelwert+=n;//wert, der sofort in der 3ten zeile beginnt.
         int temo=zaelwert;
-//    cout<<endl<<"b: _ ";
+    cout<<endl<<"b: ";
     for(int vb=0;vb<k;vb++){
         b[vb]=temp[temo+=n];
-//        cout<<" "<<b[vb];
+        cout<<" "<<b[vb];
         temo++;
     }
-//    cout<<endl;
+    cout<<endl<<"Array: "<<endl;
         for(int aa=0;aa<k;aa++){
-//        cout<<"---------zw: ---"<<zaelwert<<" !!!! "<<temp[zaelwert]<<endl;
-            
+        cout<<endl;
             for(int aaa=0; aaa<n;aaa++){
-//                cout<<"zw: "<<zaelwert<<"--WERT: "<<temp[zaelwert]<<endl;
                 A[aaa][aa]=temp[zaelwert];
                 zaelwert++;
-//                cout<<"5: "<<aaa<<endl;
-//                cout<<"Array: "<<A[aaa][aa]<<endl;
+                cout<<A[aaa][aa]<<" ";
             }
         zaelwert++;
         }
     
-        cout<<"ok"<<endl;
+        cout<<endl<<"ok"<<endl;
     for(int j=0; j<n;j++)  delete [] A[j];
     delete [] A;
     return 0;
