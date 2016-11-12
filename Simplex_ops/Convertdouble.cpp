@@ -5,12 +5,35 @@
  */
 
 #include<string>
+#include<vector>
+#include<stdlib.h>  //includes atof for conversion
 #include"Convertdouble.h"
+#include<iostream>
+using namespace std;
 
-double Convertdouble::convertstring(string r) {
-    double back=0;
-    
-    return back;
+
+/*This function returns all numbers separetet with blank as a vector with double values.*/
+vector<double> Convertdouble::convertstring(string x) {
+    int ab=x.length()+1;
+    vector<double> arr;
+    double u=0;
+    int anzahl=0;
+    cout<<"string übergabe:"<<x<<endl;
+    for(int i=0; i<ab;){
+        string fo;
+           while(x[i++]!=' ' && i<ab){
+               int gg=i;
+               fo+=x[gg-1];
+            };
+           cout<<fo<<endl;
+           anzahl++;
+           u=atof(fo.c_str());
+           cout<<"double: "<<u<<endl;
+           arr.push_back(u);
+           fo.empty();    
+    }
+    arr.resize(anzahl);
+    return arr;
 }
 
         
