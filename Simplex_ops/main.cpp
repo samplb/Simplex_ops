@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     int k=0;
     ifstream file;
     filebuf *x=file.rdbuf();
-    string path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops2.txt";
+    string path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops.txt";
     
     //-------------------------------------------------------------------------------------------------------------------
     
@@ -86,6 +86,10 @@ int main(int argc, char** argv) {
     for(int i=0; i<n;i++){
         A[i]=new double[k];
     }
+    
+    // for Test of new textfile just un-comment all cout<< until row 117
+    
+    
     cout<<"c: ";
     for(int vc=0;vc<n;vc++){
         c[vc]=temp[vc+2];
@@ -109,10 +113,13 @@ int main(int argc, char** argv) {
             }
         zaelwert++;
         }
-    
-        cout<<endl<<"ok"<<endl;
+    cout<<endl<<"ok"<<endl;
+    Solve r;
+    r.lpsolve(n,c,k,A,b);
+        
     for(int j=0; j<n;j++)  delete [] A[j];
     delete [] A;
+    cout<<"end"<<endl;
     return 0;
 }
 
