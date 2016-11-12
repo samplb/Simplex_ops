@@ -36,7 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Convertdouble.o \
-	${OBJECTDIR}/Funktion.o \
+	${OBJECTDIR}/Solve.o \
 	${OBJECTDIR}/main.o
 
 
@@ -67,17 +67,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/simplex_ops.exe: ${OBJECTFILES}
 ${OBJECTDIR}/Convertdouble.o: Convertdouble.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Convertdouble.o Convertdouble.cpp
+	$(COMPILE.cc) -O2 -I/D/Programme/C++Eigen/eigen-eigen-26667be4f70b/Eigen -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Convertdouble.o Convertdouble.cpp
 
-${OBJECTDIR}/Funktion.o: Funktion.cpp
+${OBJECTDIR}/Solve.o: Solve.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Funktion.o Funktion.cpp
+	$(COMPILE.cc) -O2 -I/D/Programme/C++Eigen/eigen-eigen-26667be4f70b/Eigen -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Solve.o Solve.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -O2 -I/D/Programme/C++Eigen/eigen-eigen-26667be4f70b/Eigen -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

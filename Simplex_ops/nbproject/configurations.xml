@@ -5,7 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Convertdouble.h</itemPath>
-      <itemPath>Funktion.h</itemPath>
+      <itemPath>Solve.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -15,7 +15,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Convertdouble.cpp</itemPath>
-      <itemPath>Funktion.cpp</itemPath>
+      <itemPath>Solve.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -39,14 +39,26 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <standard>8</standard>
+          <incDir>
+            <pElem>D:/Programme/C++Eigen/eigen-eigen-26667be4f70b</pElem>
+          </incDir>
+          <commandLine>-I D:/Programme/C++Eigen/eigen-eigen-26667be4f70b/Eigen</commandLine>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>D:/Programme/C++Eigen/eigen-eigen-26667be4f70b</pElem>
+          </linkerAddLib>
+        </linkerTool>
       </compileType>
       <item path="Convertdouble.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Convertdouble.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Funktion.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Solve.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Funktion.h" ex="false" tool="3" flavor2="0">
+      <item path="Solve.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -63,6 +75,9 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>D:/Programme/C++Eigen/eigen-eigen-26667be4f70b/Eigen</pElem>
+          </incDir>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -75,9 +90,9 @@
       </item>
       <item path="Convertdouble.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Funktion.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Solve.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Funktion.h" ex="false" tool="3" flavor2="0">
+      <item path="Solve.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

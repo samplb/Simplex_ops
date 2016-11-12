@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
     }
         for(int aa=0;aa<n;aa++){
             for(int aaa=0; aaa<k;aaa++){
-                
+                cout<<x<<endl;
             }
         }
     

@@ -18,24 +18,18 @@ vector<double> Convertdouble::convertstring(string x) {
     vector<double> arr;
     double u=0;
     int anzahl=0;
-//    cout<<"string übergabe:"<<ab<<endl;
     for(int i=0; i<ab;){
         string fo;
            do{
                int gg=i;
                i++;
                if(x[gg]=='\n'){
-//                   cout<<"break"<<endl;
                    break;
                }
                fo+=x[gg];
-//               cout<<fo<<endl;
             }while(x[i]!=' ' && i<ab);
-//           cout<<fo<<endl;
            anzahl++;
            u=atof(fo.c_str());
-           cout<<u<<endl;
-//           cout<<anzahl<<endl;
            arr.push_back(u);
            fo.empty();    
     }

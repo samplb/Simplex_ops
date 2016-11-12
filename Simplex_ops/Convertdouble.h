@@ -18,8 +18,7 @@ class Convertdouble
 {
 //function to convert string to double
 public:
-double convertstring(std::string f);
-
-}
+    std::vector<double> convertstring(std::string f);
+};
 #endif /* CONVERTDOUBLE_H */
 
