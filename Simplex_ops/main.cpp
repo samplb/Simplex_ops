@@ -90,26 +90,26 @@ int main(int argc, char** argv) {
     // for Test of new textfile just un-comment all cout<< until row 117
     
     
-    cout<<"c: ";
+//    cout<<"c: ";
     for(int vc=0;vc<n;vc++){
         c[vc]=temp[vc+2];
-        cout<<c[vc]<<"  ";
+//        cout<<c[vc]<<"  ";
     }
     zaelwert+=n;//wert, der sofort in der 3ten zeile beginnt.
         int temo=zaelwert;
-    cout<<endl<<"b: ";
+//    cout<<endl<<"b: ";
     for(int vb=0;vb<k;vb++){
         b[vb]=temp[temo+=n];
-        cout<<" "<<b[vb];
+//        cout<<" "<<b[vb];
         temo++;
     }
-    cout<<endl<<"Array: "<<endl;
+//    cout<<endl<<"Array: "<<endl;
         for(int aa=0;aa<k;aa++){
-        cout<<endl;
+//        cout<<endl;
             for(int aaa=0; aaa<n;aaa++){
                 A[aaa][aa]=temp[zaelwert];
                 zaelwert++;
-                cout<<A[aaa][aa]<<" ";
+//                cout<<A[aaa][aa]<<" ";
             }
         zaelwert++;
         }
