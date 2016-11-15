@@ -21,7 +21,7 @@ using namespace std;
 /*
  * 
  */
-
+//Test if renamed repository still works
 //vector<double>  arrayIn(string l);
 int main(int argc, char** argv) {
     int z=0;
@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
         A[i]=new double[k];
     }
     
-    // for Test of new textfile just un-comment all cout<< until row 117
+    // for Test of new textfile just un-comment all cout<< until row 117 to see the inprogramm-arrays and vectors
     
     
 //    cout<<"c: ";
@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
         }
     cout<<endl<<"ok"<<endl;
     Solve r;
-    r.lpsolve(n,c,k,A,b);
+    double *zwert=r.lpsolve(n,c,k,A,b);
         
     for(int j=0; j<n;j++)  delete [] A[j];
     delete [] A;
