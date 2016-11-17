@@ -13,7 +13,7 @@
 
 #ifndef SOLVE_H
 #define SOLVE_H
-
+#include<Eigen/Core>
 class Solve {
 public:
     Solve();
