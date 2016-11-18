@@ -1,0 +1,20 @@
+c=(-10000,-7000,0,0,0,0)
+b=(50,60,85)
+A=
+	-10000	-7000		0	0	0	0
+	1	0		1	0	0	50
+	0	1		0	1	0	60
+	1	1		0	0	1	85
+
+BV{k}
+1. Zeile negativ?
+1. Zeile kleinster Wert j=0
+if A0i > 0 Ami / Aji
+Minimum suchen
+nur Zeile speichern
+RŸckgabe double*arr[i,j]
+Zeile / Pivot
+BV Šndern, Stelle Zeilenwert wird Spaltenwert geschrieben
+Bei A00 starten, Zeilenwert von Pivotspalte =0? --> dann nix
+Pivotspaltenwert auslesen
+Schleife durch Zeile: jeder Zeilenwert Ð Pivotzeilenwert * Pivotspaltenwert
