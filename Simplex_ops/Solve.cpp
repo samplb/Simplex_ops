@@ -27,7 +27,7 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
     int col=n+k+1;
     static double* answer=new double[col];
     for(int x=0;x<k;x++){
-        answer[x]=nullptr;
+        answer[x]=0;
     }
     double *bV=new double[k];
     for(int xxx=0;xxx<k;xxx++){
@@ -53,23 +53,45 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
     int *pivot;
     cout<<endl<<tableau<<endl;
 //        cout<<endl<<tableau1<<endl;
-//    while(!finished(tableau)){
+    int count=0;
+    while(!finished(tableau)){
         pivot=getPivot(tableau);
         cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
         bV[pivot[0]]=pivot[1];
-        for(int xx=0;xx<k;xx++){
-            cout<<xx<<": "<<bV[xx]<<endl;
-        }
+//        for(int xx=0;xx<k;xx++){
+//            cout<<xx<<": "<<bV[xx]<<endl;
+//        }
 //          tableau(0,pivot[1])=0;//temporär.
-//    }
+        tableau=solvetableau(tableau,pivot);
+    cout<<endl<<tableau<<endl;
+    count++;
+    cout<<"count: "<<count<<endl;
+    }
+        
     double* ret=answer;
     delete [] bV;
     delete [] answer;
-    return ret;
+    return NULL;
 };
 /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
-Eigen::MatrixXd Solve::solvetablet(Eigen::MatrixXd& tableau1){
+Eigen::MatrixXd Solve::solvetableau(Eigen::MatrixXd& ta, int *x){
+    Eigen::MatrixXd copy=ta;
+//    cout<<copy<<"\nPivot: Zeile/Spalte "<<x[0]<<"/"<<x[1]<<endl;
+    for(int i=0;i<ta.rows();i++) {//zeilen
+        for(int j=0;j<ta.cols();j++) {//spalten
+            if(i!=x[0] && copy(i,x[1])!=0){
+                ta(i,j)-=((copy(x[0],j)/copy(x[0],x[1]))*copy(i,x[1]));
+            } else if(i!=x[0] && copy(i,x[1])==0) {
+                break;
+            } else if(i==x[0]) {
+                ta(i,j)/=copy(x[0],x[1]);
+            } else {
+                cout<<"What else?"<<endl;
+            }
+        }
+    }
     
+    return ta;
 };
 /*returns a double vector with Pivotzeile,Pivotspalte*/
 int* Solve::getPivot(Eigen::MatrixXd t) {
@@ -93,7 +115,7 @@ int* Solve::getPivot(Eigen::MatrixXd t) {
             }
         }
     }
-    cout<<"pivotelement s/z: "<<pv[1]<<"/"<<pv[0]<<endl;
+//    cout<<"pivotelement s/z: "<<pv[1]<<"/"<<pv[0]<<endl;
     
     int* ppv=pv;
 //    cout<<"ppv: "<<*ppv<<endl;

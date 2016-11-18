@@ -20,7 +20,7 @@ public:
     /*returns a double vector with Pivotzeile,Pivotspalte*/
     int* getPivot(Eigen::MatrixXd tableau1);
     /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
-    Eigen::MatrixXd solvetablet(Eigen::MatrixXd& tableau1);
+    Eigen::MatrixXd solvetableau(Eigen::MatrixXd& ta, int* x);
     double* lpsolve(int n, double* c, int k, double** A, double* b);
     /*returns true, if no negative coefficients in ZF*/
     bool finished(Eigen::MatrixXd f);

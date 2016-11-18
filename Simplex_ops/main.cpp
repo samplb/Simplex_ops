@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
     ifstream file;
     filebuf *x=file.rdbuf();
     string path;
-    path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops2.txt";
+    path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt";
     
     //-------------------------------------------------------------------------------------------------------------------
     
@@ -106,7 +106,7 @@ int main(int argc, char** argv) {
     }
 //    cout<<endl<<"Array: "<<endl;
         for(int aa=0;aa<k;aa++){
-        cout<<endl;
+//        cout<<endl;
             for(int aaa=0; aaa<n;aaa++){
                 A[aaa][aa]=temp[zaelwert];
                 zaelwert++;
@@ -114,13 +114,13 @@ int main(int argc, char** argv) {
             }
         zaelwert++;
         }
-    cout<<endl<<"ok"<<endl;
+//    cout<<endl<<"ok"<<endl;
     Solve r;
     double *zwert=r.lpsolve(n,c,k,A,b);
-    cout<<"Lösung:"<<endl;
-    for(int zz=0;zz<n+k+1;zz++){
-        cout<<zwert[zz]<<" / ";
-    }
+//    cout<<"Lösung:"<<endl;
+//    for(int zz=0;zz<n+k+1;zz++){
+//        cout<<zwert[zz]<<" / ";
+//    }
     for(int j=0; j<n;j++)  delete [] A[j];
     delete [] A;
     cout<<endl<<"end"<<endl;
