@@ -30,7 +30,8 @@ int main(int argc, char** argv) {
     int k=0;
     ifstream file;
     filebuf *x=file.rdbuf();
-    string path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops.txt";
+    string path;
+    path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops.txt";
     
     //-------------------------------------------------------------------------------------------------------------------
     
@@ -90,26 +91,26 @@ int main(int argc, char** argv) {
     // for Test of new textfile just un-comment all cout<< until row 117 to see the inprogramm-arrays and vectors
     
     
-//    cout<<"c: ";
+    cout<<"c: ";
     for(int vc=0;vc<n;vc++){
         c[vc]=temp[vc+2];
-//        cout<<c[vc]<<"  ";
+        cout<<c[vc]<<"  ";
     }
     zaelwert+=n;//wert, der sofort in der 3ten zeile beginnt.
         int temo=zaelwert;
-//    cout<<endl<<"b: ";
+    cout<<endl<<"b: ";
     for(int vb=0;vb<k;vb++){
         b[vb]=temp[temo+=n];
-//        cout<<" "<<b[vb];
+        cout<<" "<<b[vb];
         temo++;
     }
-//    cout<<endl<<"Array: "<<endl;
+    cout<<endl<<"Array: "<<endl;
         for(int aa=0;aa<k;aa++){
-//        cout<<endl;
+        cout<<endl;
             for(int aaa=0; aaa<n;aaa++){
                 A[aaa][aa]=temp[zaelwert];
                 zaelwert++;
-//                cout<<A[aaa][aa]<<" ";
+                cout<<A[aaa][aa]<<" ";
             }
         zaelwert++;
         }

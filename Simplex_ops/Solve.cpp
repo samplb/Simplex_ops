@@ -23,43 +23,37 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
 //     c hat länge n+k wegen schlupfvariablen, 
     //  b hat länge kk; wegen spaltenbeschriftung.
     // A hat A[zeilen][spalten];spalten ist n+k+1 wegen schlupfvariablen und der 
-    int col=n+k;
-    double pivot=0;
-    Eigen::MatrixXd tableau(k,col);//ausgangstabelle
-    Eigen::MatrixXd tableau1(k,col);//kopie von tableau zum rechnentabelle
+    int col=n+k+1;
+    double* pivot=nullptr;
+    Eigen::MatrixXd tableau(k+1,col);//ausgangstabelle
+//    Eigen::MatrixXd tableau1(k+1,col);//kopie von tableau zum rechnentabelle
     tableau.setZero();
-    tableau.setZero();
-    Eigen::VectorXd vc(n+k); //Vectpr c ist die zielfunktion
-    Eigen::VectorXd vb(k);  //vector b sind die werte
-    double z=0;    //zielwert, somit ergebnis
-    vector<string> pv;
-    vector<string> sv;
-    cout<<"vectorb: "<<endl;
+//    tableau1.setZero();
+//    cout<<"vectorb: "<<endl;
     for(int i=0;i<k;i++){
-        vb(i)=b[i];
-        cout<<" "<<vb(i);
+        tableau(1+i,col-1)=b[i];
+//        cout<<" "<<tableau(i+1,col-1);
     }
-    cout<<endl<<"vectorc: "<<endl;
-    for(int j=0;j<(n+k);j++){
-        vc(j)=c[j];
-        cout<<" "<<vc(j);
+//    cout<<endl<<"vectorc: "<<endl;
+    for(int j=0;j<(n);j++){
+        tableau(0,j)=(c[j]*-1);
+//        cout<<" "<<tableau(0,j);
     }
-    vc*=-1;//Zielfunktion auf rechte Seite bringen für Standardform
 //    cout<<endl<<"Ausgangstableau: \n"<<tableau<<endl;
     for(int l=0;l<k;l++){
-        tableau(l,n+l)=1;
+        tableau(l+1,n+l)=1;
         for(int m=0;m<n;m++){
-            tableau(l,m)=A[m][l];
+            tableau(l+1,m)=A[m][l];
 //            cout<<" "<<A[m][l];;
                    
         }
 //        cout<<endl;
     }
         cout<<endl<<tableau<<endl;
-        while(!finished(c)){
-            pivot=getPivot(tableau,*vc,*vb);
-            
-        }
+//        while(!finished(tableau1)){
+//            pivot=getPivot(tableau);
+//            
+//        }
     return NULL;
 };
 /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
