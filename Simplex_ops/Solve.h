@@ -18,12 +18,12 @@ class Solve {
 public:
     Solve();
     /*returns a double vector with Pivotzeile,Pivotspalte*/
-    double* getPivot(Eigen::MatrixXd tableau1);
+    int* getPivot(Eigen::MatrixXd tableau1);
     /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
     Eigen::MatrixXd solvetablet(Eigen::MatrixXd& tableau1);
     double* lpsolve(int n, double* c, int k, double** A, double* b);
     /*returns true, if no negative coefficients in ZF*/
-    bool finished(Eigen::VectorXd f);
+    bool finished(Eigen::MatrixXd f);
     ~Solve();
 };
 

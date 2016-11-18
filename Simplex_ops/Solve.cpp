@@ -6,7 +6,7 @@
 
 #include"Solve.h"
 #include<iostream>
-#include<Eigen/Core>
+#include<Eigen/Dense>
 #include<string>
 #include<vector>
 //using namespace Eigen;
@@ -16,44 +16,54 @@ Solve::Solve(){
 
 };
 Solve::~Solve(){
-    cout<<"end of Solve function"<<endl;
+    cout<<"Destruction of Solve function"<<endl;
 };
 /* returns a double array in the format of: xxxxxxxx??*/
 double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
 //     c hat länge n+k wegen schlupfvariablen, 
     //  b hat länge kk; wegen spaltenbeschriftung.
     // A hat A[zeilen][spalten];spalten ist n+k+1 wegen schlupfvariablen und der 
+    
     int col=n+k+1;
-    double* pivot=nullptr;
+    static double *answer=new double[col];
+    for(int x=0;x<k;x++){
+        answer[x]=0;
+    }
+    double *bV=new double[k];
+    for(int xxx=0;xxx<k;xxx++){
+        bV[xxx]=xxx+n;
+    }
     Eigen::MatrixXd tableau(k+1,col);//ausgangstabelle
-//    Eigen::MatrixXd tableau1(k+1,col);//kopie von tableau zum rechnentabelle
     tableau.setZero();
-//    tableau1.setZero();
-//    cout<<"vectorb: "<<endl;
+//  Adds values of vector b
     for(int i=0;i<k;i++){
         tableau(1+i,col-1)=b[i];
-//        cout<<" "<<tableau(i+1,col-1);
     }
-//    cout<<endl<<"vectorc: "<<endl;
+//    adds values of vector c
     for(int j=0;j<(n);j++){
         tableau(0,j)=(c[j]*-1);
-//        cout<<" "<<tableau(0,j);
     }
-//    cout<<endl<<"Ausgangstableau: \n"<<tableau<<endl;
+//    adds values of matrix A and Schlupfvariablen
     for(int l=0;l<k;l++){
         tableau(l+1,n+l)=1;
         for(int m=0;m<n;m++){
-            tableau(l+1,m)=A[m][l];
-//            cout<<" "<<A[m][l];;
-                   
+            tableau(l+1,m)=A[m][l];    
         }
-//        cout<<endl;
     }
+    int *pivot;
         cout<<endl<<tableau<<endl;
-//        while(!finished(tableau1)){
-//            pivot=getPivot(tableau);
-//            
+//        cout<<endl<<tableau1<<endl;
+//        while(!finished(tableau)){
+            pivot=getPivot(tableau);
+            cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
+            bV[pivot[0]]=pivot[1];
+            for(int xx=0;xx<k;xx++){
+                cout<<xx<<": "<<bV[xx]<<endl;
+            }
+            
 //        }
+    delete [] answer;
+    delete [] bV;
     return NULL;
 };
 /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
@@ -61,12 +71,36 @@ Eigen::MatrixXd Solve::solvetablet(Eigen::MatrixXd& tableau1){
     
 };
 /*returns a double vector with Pivotzeile,Pivotspalte*/
-double* Solve::getPivot(Eigen::MatrixXd tableau1) {
+int* Solve::getPivot(Eigen::MatrixXd t) {
+    static int pv[2]={0}; //static, da wert nach funktionsende noch existieren muss.
+    double xtemp=0;
+    for(int i=0;i<t.cols();i++){
+        if(t(0,i)<xtemp) {
+            pv[1]=i;
+            xtemp=t(0,i);
+        }
+    }
+//    zeile!:
+    xtemp=1.7E+307;
+    double xquot;
+    for(int j=1;j<t.rows();j++){
+        if(t(j,pv[1])>0){
+            xquot=t(j,t.cols()-1)/t(j,pv[1]);
+            if(xquot<xtemp){
+                pv[0]=j;
+                xtemp=xquot;
+            }
+        }
+    }
+    cout<<"pivotelement s/z: "<<pv[1]<<"/"<<pv[0]<<endl;
     
+    int* ppv=pv;
+//    cout<<"ppv: "<<*ppv<<endl;
+    return ppv;
 };
 /*returns true, if no negative coefficients in ZF*/
-bool Solve::finished(Eigen::VectorXd f){
-    if(f.minCoeff()>=0){
+bool Solve::finished(Eigen::MatrixXd f){
+    if(f.row(0).minCoeff()>=0){
         return true;
     }
     return false;
