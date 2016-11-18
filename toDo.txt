@@ -1,0 +1,8 @@
+
+Die opsX.txt files werden nicht richtig gelöst. Fehler im Algorithmus finden und beheben.
+
+Übergabe ins main.cpp lösen und Antwort ausgeben
+
+Meilenstein Groß M lösen
+
+Erweiterungen einbauen?
