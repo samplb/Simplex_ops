@@ -6,7 +6,7 @@
 
 #include"Solve.h"
 #include<iostream>
-#include<Eigen/Dense>
+#include<Eigen/Core>
 #include<string>
 #include<vector>
 //using namespace Eigen;
@@ -25,9 +25,9 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
     // A hat A[zeilen][spalten];spalten ist n+k+1 wegen schlupfvariablen und der 
     
     int col=n+k+1;
-    static double *answer=new double[col];
+    static double* answer=new double[col];
     for(int x=0;x<k;x++){
-        answer[x]=0;
+        answer[x]=nullptr;
     }
     double *bV=new double[k];
     for(int xxx=0;xxx<k;xxx++){
@@ -51,20 +51,21 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
         }
     }
     int *pivot;
-        cout<<endl<<tableau<<endl;
+    cout<<endl<<tableau<<endl;
 //        cout<<endl<<tableau1<<endl;
-//        while(!finished(tableau)){
-            pivot=getPivot(tableau);
-            cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
-            bV[pivot[0]]=pivot[1];
-            for(int xx=0;xx<k;xx++){
-                cout<<xx<<": "<<bV[xx]<<endl;
-            }
-            
-//        }
-    delete [] answer;
+//    while(!finished(tableau)){
+        pivot=getPivot(tableau);
+        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
+        bV[pivot[0]]=pivot[1];
+        for(int xx=0;xx<k;xx++){
+            cout<<xx<<": "<<bV[xx]<<endl;
+        }
+//          tableau(0,pivot[1])=0;//temporär.
+//    }
+    double* ret=answer;
     delete [] bV;
-    return NULL;
+    delete [] answer;
+    return ret;
 };
 /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
 Eigen::MatrixXd Solve::solvetablet(Eigen::MatrixXd& tableau1){

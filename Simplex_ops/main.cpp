@@ -117,10 +117,13 @@ int main(int argc, char** argv) {
     cout<<endl<<"ok"<<endl;
     Solve r;
     double *zwert=r.lpsolve(n,c,k,A,b);
-        
+    cout<<"Lösung:"<<endl;
+    for(int zz=0;zz<n+k+1;zz++){
+        cout<<zwert[zz]<<" / ";
+    }
     for(int j=0; j<n;j++)  delete [] A[j];
     delete [] A;
-    cout<<"end"<<endl;
+    cout<<endl<<"end"<<endl;
     return 0;
 }
 
