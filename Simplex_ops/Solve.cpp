@@ -18,7 +18,7 @@ Solve::Solve(){
 Solve::~Solve(){
     cout<<"end of Solve function"<<endl;
 };
-
+/* returns a double array in the format of: xxxxxxxx??*/
 double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
 //     c hat länge n+k wegen schlupfvariablen, 
     //  b hat länge kk; wegen spaltenbeschriftung.
@@ -62,14 +62,15 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
         }
     return NULL;
 };
-bool Solve::solvetablet(Eigen::MatrixXd& tableau1, Eigen::VectorXd& c, Eigen::VectorXd& b){
+/*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
+Eigen::MatrixXd Solve::solvetablet(Eigen::MatrixXd& tableau1){
     
 };
-
-double Solve::getPivot(Eigen::MatrixXd tableau1, Eigen::VectorXd& c, Eigen::VectorXd& b){
-
+/*returns a double vector with Pivotzeile,Pivotspalte*/
+double* Solve::getPivot(Eigen::MatrixXd tableau1) {
+    
 };
-
+/*returns true, if no negative coefficients in ZF*/
 bool Solve::finished(Eigen::VectorXd f){
     if(f.minCoeff()>=0){
         return true;
