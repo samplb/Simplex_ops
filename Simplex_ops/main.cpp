@@ -18,32 +18,65 @@
 #include"Convertdouble.h"
 #include"Solve.h"
 using namespace std;
-/*
- * 
- */
-//Test if renamed repository still works
-//vector<double>  arrayIn(string l);
+
 int main(int argc, char** argv) {
     int z=0;
     string werteuebergabe;
     int n=0;
     int k=0;
-    int length;
-    string path;
-    path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops.txt";
-    ifstream filestream("C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt",ios::binary);
-    filestream.seekg(0,ios::end);
-    length=filestream.tellg();
-    filestream.seekg(0,ios::beg);
-    char buffer[length];
-    filestream.read(buffer,length);
-     werteuebergabe=buffer;
-    filestream.close();
+    int option=0;
+    bool end=true;
+    cout<<"Welcome to our Program: Simplex-EasySolver\n"<<endl;
+    do{
+        cout<<"Please input the number of one of those options: "
+            "\n 1 -path\n 2 -help\n 3 -example1\n 4 -example2\n 5 -exit"<<endl;
+        cin>>option;
+        switch(option){
+            case 0: break;
+            case 2: cout<<"Help:\n Please choose one of the options. You just have to choose a number and follow the next steps."
+                    "\n-path: path to file in fomat: C:/Users/../x.txt"
+                    "\n-help: shows this help menue"
+                    "\n-example1 or -example2: each options calculates a different simple Problem as Example."
+                    "\n-exit: closes Programm"
+                    "\n "
+                    "\n Our Team hopes that you can sucessfully use our small tool and it helps you with your problems."
+                    "\n Contact: a14015xx@unet.univie.ac.at\n \n"<<endl;
+                    break;
+            case 3: werteuebergabe="4 5\n9 1.2 3 78.6695\n2.2 -2.55 8 1 1.2\n0 -12 889 1 889.42\n89.5 -826.8 8452.6 -8 7\n22.5 22 -56 -8.99 7.89\n7.9 -6 -99.5 8 7.6";
+                    end=false;
+                    cout<<"Array: "<<werteuebergabe<<endl;
+                    break;
+            case 4: werteuebergabe="sry.not yet known";
+                    end=false;
+                    cout<<"Array: "<<werteuebergabe<<endl;
+                    break;
+            case 5: return 1;
+            default: break;
+            case 1: cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
+                    string path;
+                    cin>>path;
+                    ifstream filestream(path,ios::binary);
+                    filestream.seekg(0,ios::end);
+                    int length;
+                    length=filestream.tellg();
+                    filestream.seekg(0,ios::beg);
+                    char buffer[length];
+                    filestream.read(buffer,length);
+                    werteuebergabe=buffer;
+                    filestream.close();
+                    end=false;
+                    cout<<"Array: "<<werteuebergabe<<endl;
+                    break;
+        }
+    } while(end);
+    
+    
+    
  
     //-------------------------------------------------------------------------------------------------------------------
     
-
     vector<double> temp;
+    
     cout<<"Array: "<<werteuebergabe<<endl;
     Convertdouble cs;
     temp=cs.convertstring(werteuebergabe);

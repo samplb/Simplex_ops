@@ -40,8 +40,6 @@ vector<double> Convertdouble::convertstring(string x) {
     n=arr[0];
     k=arr[1];
     int anzahl=(k*(n+1))+2+n;
-//    cout<<"a: "<<anzahl<<". sn_"<<ab<<endl;
-//    arr.resize(anzahl);
     return arr;
 }
 
