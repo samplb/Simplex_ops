@@ -58,21 +58,20 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
         pivot=getPivot(tableau);
 //        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
         bV[pivot[0]]=pivot[1];
-//        cout<<"Basisvariablen:"<<endl;
-//        for(int xx=0;xx<k;xx++){
-//            cout<<bV[xx]<<" ";
-//        }
-//          tableau(0,pivot[1])=0;//temporär.
+        cout<<"Basisvariablen:"<<endl;
+        for(int xx=0;xx<k;xx++){
+            cout<<bV[xx]<<" ";
+        }
+          tableau(0,pivot[1])=0;//temporär.
         tableau=solvetableau(tableau,pivot);
     cout<<endl<<tableau<<endl;
     count++;
     cout<<"count: "<<count<<endl;
-    }
-        
+    }        
     double* ret=answer;
     delete [] bV;
     delete [] answer;
-    return NULL;
+    return ret;
 };
 /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
 Eigen::MatrixXd Solve::solvetableau(Eigen::MatrixXd& ta, int *x){

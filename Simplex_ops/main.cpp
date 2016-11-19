@@ -51,9 +51,12 @@ int main(int argc, char** argv) {
                     cout<<"Array: "<<werteuebergabe<<endl;
                     break;
             case 5: return 1;
-            default: break;
+            default:cin.clear();
+                    break;
+//                    C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt
             case 1: cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
                     string path;
+                    cin.clear();
                     cin>>path;
                     ifstream filestream(path,ios::binary);
                     filestream.seekg(0,ios::end);
@@ -133,10 +136,10 @@ int main(int argc, char** argv) {
     
     Solve r;
     double *zwert=r.lpsolve(n,c,k,A,b);
-//    cout<<"Lösung:"<<endl;
-//    for(int zz=0;zz<n+k+1;zz++){
-//        cout<<zwert[zz]<<" / ";
-//    }
+    cout<<"Lösung:"<<endl;
+    for(int zz=0;zz<n+k+1;zz++){
+        cout<<zwert[zz]<<" / ";
+    }
     for(int j=0; j<n;j++)  delete [] A[j];
     delete [] A;
     cout<<endl<<"end"<<endl;

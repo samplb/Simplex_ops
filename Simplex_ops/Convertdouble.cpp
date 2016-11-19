@@ -15,8 +15,6 @@ using namespace std;
 /*This function returns all numbers separetet with blank as a vector with double values.*/
 vector<double> Convertdouble::convertstring(string x) {
     int ab=x.length()+1;
-    int n=0;
-    int k=0;
     vector<double> arr;
     double u=0;
 //    cout<<"x: "<<x<<endl;
@@ -37,9 +35,6 @@ vector<double> Convertdouble::convertstring(string x) {
            arr.push_back(u);
            fo.empty();    
     }
-    n=arr[0];
-    k=arr[1];
-    int anzahl=(k*(n+1))+2+n;
     return arr;
 }
 
