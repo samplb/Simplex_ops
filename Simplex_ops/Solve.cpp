@@ -56,10 +56,11 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
     int count=0;
     while(!finished(tableau)){
         pivot=getPivot(tableau);
-        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
+//        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
         bV[pivot[0]]=pivot[1];
+//        cout<<"Basisvariablen:"<<endl;
 //        for(int xx=0;xx<k;xx++){
-//            cout<<xx<<": "<<bV[xx]<<endl;
+//            cout<<bV[xx]<<" ";
 //        }
 //          tableau(0,pivot[1])=0;//temporär.
         tableau=solvetableau(tableau,pivot);

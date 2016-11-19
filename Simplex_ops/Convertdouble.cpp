@@ -19,6 +19,7 @@ vector<double> Convertdouble::convertstring(string x) {
     int k=0;
     vector<double> arr;
     double u=0;
+//    cout<<"x: "<<x<<endl;
     for(int i=0; i<ab;){
         string fo;
            do{
@@ -40,7 +41,7 @@ vector<double> Convertdouble::convertstring(string x) {
     k=arr[1];
     int anzahl=(k*(n+1))+2+n;
 //    cout<<"a: "<<anzahl<<". sn_"<<ab<<endl;
-    arr.resize(anzahl);
+//    arr.resize(anzahl);
     return arr;
 }
 

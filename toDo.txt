@@ -1,6 +1,14 @@
-
+﻿
 Die opsX.txt files werden nicht richtig gelöst. Fehler im Algorithmus finden und beheben.
-
+Kontrolle: http://www.phpsimplex.com/simplex/solucion.php?l=en
+ops= unlösbar-unbound
+ops1:gelöst:
+            Z = 2042.8671264924
+            X1 = 0
+            X2 = 13.813497885938
+            X3 = 1.1580080163259
+            X4 = 25.712848117508
+ops2=endlosschleife-.
 Übergabe ins main.cpp lösen und Antwort ausgeben
 
 Meilenstein Groß M lösen

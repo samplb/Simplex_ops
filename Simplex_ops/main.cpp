@@ -28,53 +28,32 @@ int main(int argc, char** argv) {
     string werteuebergabe;
     int n=0;
     int k=0;
-    ifstream file;
-    filebuf *x=file.rdbuf();
+    int length;
     string path;
-    path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt";
-    
+    path="C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops.txt";
+    ifstream filestream("C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt",ios::binary);
+    filestream.seekg(0,ios::end);
+    length=filestream.tellg();
+    filestream.seekg(0,ios::beg);
+    char buffer[length];
+    filestream.read(buffer,length);
+     werteuebergabe=buffer;
+    filestream.close();
+ 
     //-------------------------------------------------------------------------------------------------------------------
     
-    
-//    /*
-    
-//   file is open. 
-    try{
-       x->open(path,ios_base::in);
-    if(!file.is_open()){
-        cerr << "Einlesefehler"<<file.exceptions()<<endl;
-        return 2;
-    }
-    } catch(...) {
-        cout<<"Error with File-Reading"<<endl;
-    }
-    char inputtemp[1000];
+
     vector<double> temp;
-//   adds all values to array inputtemp
-    file.read(inputtemp,1000);
-//    closes Filestreams
-    file.close();
-    x->close();
-//    converts char in string
-    werteuebergabe.append(inputtemp);
-//    cout<<werteuebergabe<<endl;
-//    converts the string in an vector<double>
-//    */
-//    cout<<"Array: "<<werteuebergabe<<endl;
+    cout<<"Array: "<<werteuebergabe<<endl;
     Convertdouble cs;
     temp=cs.convertstring(werteuebergabe);
-/* output of double-values in vector.
-    cout << "vector contains:";
-  for (unsigned i=0; i<temp.size(); ++i)
-    cout << ' ' << temp[i]<<endl;
- * */
     n=temp[0];
     k=temp[1];
     z=temp.size();  //amount of elements.
     int zz=(k*(n+1))+2+n;
 //    creates Matrix and Vectors with values.
     if(z!=zz){
-        cerr<<"Fehler bei der Matrixgröße!"<<"_z_"<<z<<"_zz_"<<zz<<endl;
+        cerr<<"Fehler bei der Matrixgröße!"<<"_IstLengthArray_"<<z<<"_shouldLengthArray_"<<zz<<endl;
         return 2;
     }
     int zaelwert=0;
@@ -98,10 +77,10 @@ int main(int argc, char** argv) {
     }
     zaelwert+=n;//wert, der sofort in der 3ten zeile beginnt.
         int temo=zaelwert;
-//    cout<<endl<<"b: ";
+    cout<<endl<<"b: ";
     for(int vb=0;vb<k;vb++){
         b[vb]=temp[temo+=n];
-//        cout<<" "<<b[vb];
+        cout<<" "<<b[vb];
         temo++;
     }
 //    cout<<endl<<"Array: "<<endl;
@@ -115,6 +94,10 @@ int main(int argc, char** argv) {
         zaelwert++;
         }
 //    cout<<endl<<"ok"<<endl;
+    
+//    Start solving problem:
+    
+    
     Solve r;
     double *zwert=r.lpsolve(n,c,k,A,b);
 //    cout<<"Lösung:"<<endl;
