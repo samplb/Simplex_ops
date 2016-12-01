@@ -42,13 +42,11 @@ int main(int argc, char** argv) {
                     "\n Our Team hopes that you can sucessfully use our small tool and it helps you with your problems."
                     "\n Contact: a14015xx@unet.univie.ac.at\n \n"<<endl;
                     break;
-            case 3: werteuebergabe="4 5\n9 1.2 3 78.6695\n2.2 -2.55 8 1 1.2\n0 -12 889 1 889.42\n89.5 -826.8 8452.6 -8 7\n22.5 22 -56 -8.99 7.89\n7.9 -6 -99.5 8 7.6";
+            case 3: werteuebergabe="3 4\n15 20 130\n5 0 0 2\n10 10 0 3\n0 20 20 4\n0 0 50 5";
                     end=false;
-                    cout<<"Array: "<<werteuebergabe<<endl;
                     break;
             case 4: werteuebergabe="sry.not yet known";
                     end=false;
-                    cout<<"Array: "<<werteuebergabe<<endl;
                     break;
             case 5: return 1;
             default:cin.clear();
@@ -68,7 +66,6 @@ int main(int argc, char** argv) {
                     werteuebergabe=buffer;
                     filestream.close();
                     end=false;
-                    cout<<"Array: "<<werteuebergabe<<endl;
                     break;
         }
     } while(end);
@@ -80,7 +77,7 @@ int main(int argc, char** argv) {
     
     vector<double> temp;
     
-    cout<<"Array: "<<werteuebergabe<<endl;
+    cout<<"Array: "<<werteuebergabe<<endl<<"Starte die Berechnung:"<<endl;
     Convertdouble cs;
     temp=cs.convertstring(werteuebergabe);
     n=temp[0];
@@ -113,7 +110,7 @@ int main(int argc, char** argv) {
     }
     zaelwert+=n;//wert, der sofort in der 3ten zeile beginnt.
         int temo=zaelwert;
-    cout<<endl<<"b: ";
+//    cout<<endl<<"b: ";
     for(int vb=0;vb<k;vb++){
         b[vb]=temp[temo+=n];
         cout<<" "<<b[vb];

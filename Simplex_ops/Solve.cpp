@@ -55,14 +55,14 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
 //        cout<<endl<<tableau1<<endl;
     int count=0;
     while(!finished(tableau)){
+        cout<<"Tableau: "<<tableau<<endl;
         pivot=getPivot(tableau);
-//        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
-        bV[pivot[0]]=pivot[1];
-        cout<<"Basisvariablen:"<<endl;
+        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
+        pivot[0]=pivot[1];
+        cout<<"Basisvariablen:\t";
         for(int xx=0;xx<k;xx++){
             cout<<bV[xx]<<" ";
         }
-          tableau(0,pivot[1])=0;//temporär.
         tableau=solvetableau(tableau,pivot);
     cout<<endl<<tableau<<endl;
     count++;
@@ -75,15 +75,16 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
 };
 /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
 Eigen::MatrixXd Solve::solvetableau(Eigen::MatrixXd& ta, int *x){
+    cout<<"Satrte solvetableau func."<<endl;
     Eigen::MatrixXd copy=ta;
-//    cout<<copy<<"\nPivot: Zeile/Spalte "<<x[0]<<"/"<<x[1]<<endl;
+    cout<<copy<<"\nPivot: Zeile/Spalte "<<x[0]<<"/"<<x[1]<<endl;
     for(int i=0;i<ta.rows();i++) {//zeilen
         for(int j=0;j<ta.cols();j++) {//spalten
-            if(i!=x[0] && copy(i,x[1])!=0){
+            if(i!=x[0] && copy(i,x[1])!=0){//Berechnung aller anderen Matrixelemente.
                 ta(i,j)-=((copy(x[0],j)/copy(x[0],x[1]))*copy(i,x[1]));
-            } else if(i!=x[0] && copy(i,x[1])==0) {
+            } else if(i!=x[0] && copy(i,x[1])==0) {//keine änderung wenn pivotspaltenelement null ist
                 break;
-            } else if(i==x[0]) {
+            } else if(i==x[0]) {//if pivotzeile, alles durch das Pivotelement dividieren.
                 ta(i,j)/=copy(x[0],x[1]);
             } else {
                 cout<<"What else?"<<endl;
@@ -115,7 +116,7 @@ int* Solve::getPivot(Eigen::MatrixXd t) {
             }
         }
     }
-//    cout<<"pivotelement s/z: "<<pv[1]<<"/"<<pv[0]<<endl;
+    cout<<"pivotelement s/z: "<<pv[1]<<"/"<<pv[0]<<endl;
     
     int* ppv=pv;
 //    cout<<"ppv: "<<*ppv<<endl;
