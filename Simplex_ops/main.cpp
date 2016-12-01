@@ -42,10 +42,11 @@ int main(int argc, char** argv) {
                     "\n Our Team hopes that you can sucessfully use our small tool and it helps you with your problems."
                     "\n Contact: a14015xx@unet.univie.ac.at\n \n"<<endl;
                     break;
-            case 3: werteuebergabe="3 4\n15 20 130\n5 0 0 2\n10 10 0 3\n0 20 20 4\n0 0 50 5";
+            case 3: werteuebergabe="3 4\n15 20 130\n5 0 0 2\n10 10 0 3\n0 20 20 4\n0 0 50 5";//von aufgabensammlung.txt bsp. 5
                     end=false;
                     break;
-            case 4: werteuebergabe="sry.not yet known";
+            case 4: cout<<"sry.not yet implemented, we will use values of example3"<<endl;
+                    werteuebergabe="3 4\n15 20 130\n5 0 0 2\n10 10 0 3\n0 20 20 4\n0 0 50 5";//von aufgabensammlung.txt bsp. 5
                     end=false;
                     break;
             case 5: return 1;
@@ -77,7 +78,7 @@ int main(int argc, char** argv) {
     
     vector<double> temp;
     
-    cout<<"Array: "<<werteuebergabe<<endl<<"Starte die Berechnung:"<<endl;
+    cout<<"Starte die Berechnung:\n"<<endl;
     Convertdouble cs;
     temp=cs.convertstring(werteuebergabe);
     n=temp[0];
@@ -113,7 +114,7 @@ int main(int argc, char** argv) {
 //    cout<<endl<<"b: ";
     for(int vb=0;vb<k;vb++){
         b[vb]=temp[temo+=n];
-        cout<<" "<<b[vb];
+//        cout<<" "<<b[vb];
         temo++;
     }
 //    cout<<endl<<"Array: "<<endl;
@@ -134,10 +135,13 @@ int main(int argc, char** argv) {
     Solve r;
     double *zwert=r.lpsolve(n,c,k,A,b);
     cout<<"Lösung:"<<endl;
-    for(int zz=0;zz<n+k+1;zz++){
-        cout<<zwert[zz]<<" / ";
+    for(int zz=0;zz<n;zz++){
+        cout<<"x"<<zz+1<<": "<<zwert[zz]<<endl;
+//        cout<<zwert[zz]<<" / ";
     }
-    for(int j=0; j<n;j++)  delete [] A[j];
+    cout<<"optimaler Maximalwert: "<<zwert[n+k]<<endl;
+    for(int j=0; j<n;j++)  
+        delete [] A[j];
     delete [] A;
     cout<<endl<<"end"<<endl;
     return 0;
