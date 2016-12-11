@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     cout<<"Welcome to our Program: Simplex-EasySolver\n"<<endl;
     do{
         cout<<"Please input the number of one of those options: "
-            "\n 1 -path\n 2 -help\n 3 -example1\n 4 -example2\n 5 -exit"<<endl;
+            "\n 1 -path\n 2 -help\n 3 -Standardproblem\n 4 -Problem with BigM-Method\n 5 -exit"<<endl;
         cin>>option;
         switch(option){
             case 0: break;
@@ -45,8 +45,7 @@ int main(int argc, char** argv) {
             case 3: werteuebergabe="3 4\n15 20 130\n5 0 0 2\n10 10 0 3\n0 20 20 4\n0 0 50 5";//von aufgabensammlung.txt bsp. 5
                     end=false;
                     break;
-            case 4: cout<<"sry.not yet implemented, we will use values of example3"<<endl;
-                    werteuebergabe="3 4\n15 20 130\n5 0 0 2\n10 10 0 3\n0 20 20 4\n0 0 50 5";//von aufgabensammlung.txt bsp. 5
+            case 4: werteuebergabe="2 2\n1 3\n-1 -2 -2\n1 1 3\n";//von aufgabensammlung.txt bsp. 5
                     end=false;
                     break;
             case 5: return 1;
@@ -80,15 +79,20 @@ int main(int argc, char** argv) {
     
     cout<<"Starte die Berechnung:\n"<<endl;
     Convertdouble cs;
+//    cout<<"Array:"<<werteuebergabe<<endl;
     temp=cs.convertstring(werteuebergabe);
     n=temp[0];
     k=temp[1];
     z=temp.size();  //amount of elements.
+    for(int i=0;i<z;i++){
+        cout<<temp[i]<<" ";
+    }
     int zz=(k*(n+1))+2+n;
 //    creates Matrix and Vectors with values.
     if(z!=zz){
-        cerr<<"Fehler bei der Matrixgröße!"<<"_IstLengthArray_"<<z<<"_shouldLengthArray_"<<zz<<endl;
-        return 2;
+        cerr<<"Fehler bei der Matrixgröße!"<<"_IstLength-Array_"<<z<<"_shouldLength-Array_"<<zz<<endl;
+        cerr<<"Resize Array to should be-size, please check for errors:"<<endl;
+        temp.resize(zz);
     }
     int zaelwert=0;
     double c[n];

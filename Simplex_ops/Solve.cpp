@@ -21,7 +21,7 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
 //     c hat länge n+k wegen schlupfvariablen, 
     //  b hat länge kk; wegen spaltenbeschriftung.
     // A hat A[zeilen][spalten];spalten ist n+k+1 wegen schlupfvariablen und der 
-    
+    bool negb=false;//if true, bigM method:
     int col=n+k+1;
     static double* answer=new double[col];
     for(int x=0;x<col;x++){
@@ -35,7 +35,11 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
     tableau.setZero();
 //  Adds values of vector b
     for(int i=0;i<k;i++){
+        if(b[i]<0) {
+            negb=true;
+        }
         tableau(1+i,col-1)=b[i];
+        
     }
 //    adds values of vector c
     for(int j=0;j<(n);j++){
@@ -51,6 +55,7 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
     int *pivot;
     int count=0;
     cout<<"Das Ausgangstableau: \n"<<tableau<<endl<<"____________________________________________\n\n"<<endl;
+    if(!negb) {
     while(!finished(tableau)){
 //        cout<<"Tableau: "<<tableau<<endl;
         pivot=getPivot(tableau);
@@ -65,6 +70,9 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
     cout<<"Das Pivotelement ist in spalte/zeile: "<<pivot[1]<<"/"<<pivot[0]<<endl;
     cout<<"Berechnungstableau:\t"<<count<<"\n"<<tableau<<endl<<"...........................................................................\n"<<endl;
     count++;
+    }
+    } else {
+        cout<<"Shit-USE BIG M METHOD"<<endl;
     }
     Eigen::VectorXd ergeb(k+1);
     ergeb=tableau.col(col-1);
