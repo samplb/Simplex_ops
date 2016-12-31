@@ -18,7 +18,7 @@ vector<double> Convertdouble::convertstring(string x) {
     int ab=x.length()+1;
     vector<double> arr;
     double u=0;
-    cout<<"x: "<<x<<endl;
+    cout<<"Textfile: \n"<<x<<endl;
     string fo;
     for(int i=0; i<ab;){
         fo.clear();
@@ -26,10 +26,10 @@ vector<double> Convertdouble::convertstring(string x) {
             while(x[i]!=' ' && i<ab && x[i]!='\n') {
             fo+=x[i];
             i++;
-            cout<<"fo"<<fo<<" ";
+//            cout<<"fo"<<fo<<" ";
         }
         } else {
-            cout<<"X"<<endl;
+//            cout<<"X"<<endl;
             fo.clear();
             i++;
         }
@@ -45,7 +45,7 @@ vector<double> Convertdouble::convertstring(string x) {
 //            cout<<endl;
            if(!fo.empty()){
            u=atof(fo.c_str());
-           cout<<"u"<<i<<": "<<u<<endl;
+//           cout<<"u"<<i<<": "<<u<<endl;
            arr.push_back(u);
            }
            fo.clear();    

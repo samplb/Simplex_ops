@@ -15,31 +15,15 @@ Solve::Solve(){
 //    cout<<"Start solvefunc"<<endl;
 
 };
-
-/* returns a double array in the format of: xxxxxxxx??*/
-double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
-//     c hat länge n+k wegen schlupfvariablen, 
-    //  b hat länge kk; wegen spaltenbeschriftung.
-    // A hat A[zeilen][spalten];spalten ist n+k+1 wegen schlupfvariablen und der 
-    bool negb=false;//if true, bigM method:
-    int col=n+k+1;
-    static double* answer=new double[col];
-    for(int x=0;x<col;x++){
-        answer[x]=0;
-    }
-    double *bV=new double[k];
-    for(int xxx=0;xxx<k;xxx++){
-        bV[xxx]=xxx+n;
-    }
-    Eigen::MatrixXd tableau(k+1,col);//ausgangstabelle
+Eigen::MatrixXd Solve::minimieren(int n, double* c, int k, double** A, double* b){
+  
+}
+Eigen::MatrixXd Solve::maximieren(int n, double* c, int k, double** A, double* b){
+    Eigen::MatrixXd tableau(k+1,n+k+1);//ausgangstabelle
     tableau.setZero();
-//  Adds values of vector b
+    //  Adds values of vector b
     for(int i=0;i<k;i++){
-        if(b[i]<0) {
-            negb=true;
-        }
-        tableau(1+i,col-1)=b[i];
-        
+        tableau(1+i,(n+k+1)-1)=b[i];        
     }
 //    adds values of vector c
     for(int j=0;j<(n);j++){
@@ -52,27 +36,52 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
             tableau(l+1,m)=A[m][l];    
         }
     }
-    int *pivot;
+    cout<<"tableau:\n"<<tableau<<endl;
+        return tableau;
+}
+
+/* returns a double array in the format of: xxxxxxxx??*/
+double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim){
+    // A hat A[zeilen][spalten];spalten ist n+k+1 wegen schlupfvariablen und der 
+    bool negb=false;//if true, bigM method:
+    int col=n+k+1;
+    static double* answer=new double[col];
+    for(int x=0;x<col;x++){
+        answer[x]=0;
+    }
+    double *bV=new double[k];
+    for(int xxx=0;xxx<k;xxx++){
+        bV[xxx]=xxx+n;
+    }
+    for(int i=0;i<k;i++){
+        if(b[i]<0) {
+            negb=true;
+        }
+    }
+    Eigen::MatrixXd tableau;
+    if(minim){
+        cout<<"Minimierung:"<<endl;
+        Eigen::MatrixXd tableau(n+1,col);//ausgangstabelle
+        tableau.setZero();
+        tableau=minimieren(n,c,k,A,b);
+        int *pivot;
     int count=0;
     cout<<"Das Ausgangstableau: \n"<<tableau<<endl<<"____________________________________________\n\n"<<endl;
     if(!negb) {
-    while(!finished(tableau)){
+         while(!finished(tableau)){
 //        cout<<"Tableau: "<<tableau<<endl;
-        pivot=getPivot(tableau);
-        int rr=pivot[0]-1;
-        bV[rr]=pivot[1];
+            pivot=getPivot(tableau);
+            int rr=pivot[0]-1;
+            bV[rr]=pivot[1];
 //        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
 //        cout<<"Basisvariablen:\t";
 //        for(int xx=0;xx<k;xx++){
 //            cout<<bV[xx]<<" ";
 //        }
-        tableau=solvetableau(tableau,pivot);
-    cout<<"Das Pivotelement ist in spalte/zeile: "<<pivot[1]<<"/"<<pivot[0]<<endl;
-    cout<<"Berechnungstableau:\t"<<count<<"\n"<<tableau<<endl<<"...........................................................................\n"<<endl;
-    count++;
-    }
-    } else {
-        cout<<"Shit-USE BIG M METHOD"<<endl;
+         tableau=solvetableau(tableau,pivot);
+//      cout<<"Das Pivotelement ist in spalte/zeile: "<<pivot[1]<<"/"<<pivot[0]<<endl;
+//      cout<<"Berechnungstableau:\t"<<count<<"\n"<<tableau<<endl<<"...........................................................................\n"<<endl;
+        count++;
     }
     Eigen::VectorXd ergeb(k+1);
     ergeb=tableau.col(col-1);
@@ -84,14 +93,57 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b){
     answer[col-1]=ergeb(0);
     delete [] bV;
     return answer;
-//    delete [] answer;
+    } else {
+        cout<<"Shit-USE BIG M METHOD"<<endl;
+    }
+    
+    } else if(!minim) {
+        cout<<"Maximierung:"<<endl;
+        Eigen::MatrixXd tableau(k+1,col);//ausgangstabelle
+        tableau.setZero();
+        tableau=maximieren(n,c,k,A,b);
+        int *pivot;
+    int count=0;
+    cout<<"Das Ausgangstableau: \n"<<tableau<<endl<<"____________________________________________\n\n"<<endl;
+    if(!negb) {
+         while(!finished(tableau)){
+//        cout<<"Tableau: "<<tableau<<endl;
+            pivot=getPivot(tableau);
+            int rr=pivot[0]-1;
+            bV[rr]=pivot[1];
+//        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
+//        cout<<"Basisvariablen:\t";
+//        for(int xx=0;xx<k;xx++){
+//            cout<<bV[xx]<<" ";
+//        }
+         tableau=solvetableau(tableau,pivot);
+//      cout<<"Das Pivotelement ist in spalte/zeile: "<<pivot[1]<<"/"<<pivot[0]<<endl;
+//      cout<<"Berechnungstableau:\t"<<count<<"\n"<<tableau<<endl<<"...........................................................................\n"<<endl;
+        count++;
+    }
+    Eigen::VectorXd ergeb(k+1);
+    ergeb=tableau.col(col-1);
+//    cout<<"egeb:"<<ergeb<<endl;
+    for(int x=0;x<k;x++){
+        int stelle=bV[x];
+        answer[stelle]=ergeb(x+1);
+    }
+    answer[col-1]=ergeb(0);
+    delete [] bV;
+    return answer;
+    } else {
+        cout<<"Shit-USE BIG M METHOD"<<endl;
+    }
+    }
+    
+    delete [] answer;
 };
 /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
 Eigen::MatrixXd Solve::solvetableau(Eigen::MatrixXd& ta, int *x){
 //    cout<<"Starte solvetableau func."<<endl;
     Eigen::MatrixXd copy=ta;
 //    cout<<"Copy: \n"<<copy<<endl;
-//    cout<<copy<<"\nPivot: Zeile0/Spalte1 "<<x[0]<<"/"<<x[1]<<endl;
+//    cout<<copy<<"\nPivo3t: Zeile0/Spalte1 "<<x[0]<<"/"<<x[1]<<endl;
     for(int i=0;i<ta.rows();i++) {//zeilen
         for(int j=0;j<ta.cols();j++) {//spalten
             if(i!=x[0] && copy(i,x[1])!=0){//Berechnung aller anderen Matrixelemente.
@@ -148,7 +200,8 @@ bool Solve::finished(Eigen::MatrixXd f){
     }
     return false;
 };
-
+/* Minimierungsproblem-Transformation:*/
+ 
 Solve::~Solve(){
     
 

@@ -25,6 +25,7 @@ int main(int argc, char** argv) {
     int n=0;
     int k=0;
     int option=0;
+    bool minprob=false;
     bool end=true;
     cout<<"Welcome to our Program: Simplex-EasySolver\n"<<endl;
     do{
@@ -36,7 +37,7 @@ int main(int argc, char** argv) {
             case 2: cout<<"Help:\n Please choose one of the options. You just have to choose a number and follow the next steps."
                     "\n-path: path to file in fomat: C:/Users/../x.txt"
                     "\n-help: shows this help menue"
-                    "\n-example1 or -example2: each options calculates a different simple Problem as Example."
+                    "\n-3 is normal problem->max and -4 is a problem to solve with the use of Big-M."
                     "\n-exit: closes Programm"
                     "\n "
                     "\n Our Team hopes that you can sucessfully use our small tool and it helps you with your problems."
@@ -52,7 +53,17 @@ int main(int argc, char** argv) {
             default:cin.clear();
                     break;
 //                    C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt
-            case 1: cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
+            case 1: 
+                    bool ok=false;
+                    do{
+                        cout<<"Minimierung('1') oder Maximierung('2') des Problems? Bitte geben Sie die Zahl ein: "<<endl;
+                        int minim=0;
+                        cin>>minim;
+                        if(minim==1){minprob=true;}
+                        else if(minim==2){minprob=false;}
+                        else {ok=true;}
+                    } while(ok);
+                    cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
                     string path;
                     cin.clear();
                     cin>>path;
@@ -66,6 +77,7 @@ int main(int argc, char** argv) {
                     werteuebergabe=buffer;
                     filestream.close();
                     end=false;
+                   
                     break;
         }
     } while(end);
@@ -84,9 +96,9 @@ int main(int argc, char** argv) {
     n=temp[0];
     k=temp[1];
     z=temp.size();  //amount of elements.
-    for(int i=0;i<z;i++){
-        cout<<temp[i]<<" ";
-    }
+//    for(int i=0;i<z;i++){
+//        cout<<temp[i]<<" ";
+//    }
     int zz=(k*(n+1))+2+n;
 //    creates Matrix and Vectors with values.
     if(z!=zz){
@@ -137,7 +149,7 @@ int main(int argc, char** argv) {
     
     
     Solve r;
-    double *zwert=r.lpsolve(n,c,k,A,b);
+    double *zwert=r.lpsolve(n,c,k,A,b,minprob);
     cout<<"Lösung:"<<endl;
     for(int zz=0;zz<n;zz++){
         cout<<"x"<<zz+1<<": "<<zwert[zz]<<endl;

@@ -17,11 +17,15 @@
 class Solve {
 public:
     Solve();
+    //ausgangstableau beim minimieren
+    Eigen::MatrixXd minimieren(int n, double* c, int k, double** A, double* b);
+    //Ausgangstableau beim maximieren
+    Eigen::MatrixXd maximieren(int n, double* c, int k, double** A, double* b);
     /*returns a double vector with Pivotzeile,Pivotspalte*/
     int* getPivot(Eigen::MatrixXd tableau1);
     /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
     Eigen::MatrixXd solvetableau(Eigen::MatrixXd& ta, int* x);
-    double* lpsolve(int n, double* c, int k, double** A, double* b);
+    double* lpsolve(int n, double* c, int k, double** A, double* b,bool minim);
     /*returns true, if no negative coefficients in ZF*/
     bool finished(Eigen::MatrixXd f);
     ~Solve();
