@@ -75,7 +75,7 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
     // A hat A[zeilen][spalten];spalten ist n+k+1 wegen schlupfvariablen und der 
     bool negb=false;//if true, bigM method:
     int col=n+k+1;
-    static double* answer=new double[col];
+    double* answer=new double[col];
     for(int x=0;x<col;x++){
         answer[x]=0;
     }
@@ -102,21 +102,14 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
             pivot=getPivot(tableau);
             int rr=pivot[0]-1;
             bV[rr]=pivot[1];
-//        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
-//        cout<<"Basisvariablen:\t";
-//        for(int xx=0;xx<k;xx++){
-//            cout<<bV[xx]<<" ";
-//        }
-         tableau=solvetableau(tableau,pivot);
-//      cout<<"Das Pivotelement ist in spalte/zeile: "<<pivot[1]<<"/"<<pivot[0]<<endl;
-//      cout<<"Berechnungstableau:\t"<<count<<"\n"<<tableau<<endl<<"...........................................................................\n"<<endl;
-        count++;
+         tableau=solvetableau(tableau,pivot); 
+         count++;
         
         cout<<"Tableau: \n"<<tableau<<endl;
     }
     Eigen::VectorXd ergeb(col);
     ergeb=tableau.row(0);
-    cout<<"egeb:"<<ergeb<<endl;
+//    cout<<"egeb:"<<ergeb<<endl;
     for(int x=0;x<n;x++){
         answer[x]=ergeb(x+k);
 //        cout<<answer[x]<<"    ";
@@ -125,11 +118,11 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
     delete [] bV;
     return answer;
     } else {
-        cout<<"Shit-USE BIG M METHOD"<<endl;
+            tableau=solveBigM(tableau);
     }
     
     } else if(!minim) {
-        cout<<"Maximierung:"<<endl;
+//        cout<<"Maximierung:"<<endl;
         Eigen::MatrixXd tableau(k+1,col);//ausgangstabelle
         tableau.setZero();
         tableau=maximieren(n,c,k,A,b);
@@ -143,19 +136,12 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
     cout<<"Das Ausgangstableau: \n"<<tableau<<endl<<"____________________________________________\n\n"<<endl;
     if(!negb) {
          while(!finished(tableau)){
-//        cout<<"Tableau: "<<tableau<<endl;
+        cout<<"Tableau: \n"<<tableau<<endl;
             pivot=getPivot(tableau);
             int rr=pivot[0]-1;
             bV[rr]=pivot[1];
-//        cout<<"Z: "<<pivot[0]<<" S:"<<pivot[1]<<endl;
-//        cout<<"Basisvariablen:\t";
-//        for(int xx=0;xx<k;xx++){
-//            cout<<bV[xx]<<" ";
-//        }
-         tableau=solvetableau(tableau,pivot);
-//      cout<<"Das Pivotelement ist in spalte/zeile: "<<pivot[1]<<"/"<<pivot[0]<<endl;
-//      cout<<"Berechnungstableau:\t"<<count<<"\n"<<tableau<<endl<<"...........................................................................\n"<<endl;
-        count++;
+            count++;
+            tableau=solvetableau(tableau,pivot);
     }
     Eigen::VectorXd ergeb(k+1);
     ergeb=tableau.col(col-1);
@@ -168,7 +154,7 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
     delete [] bV;
     return answer;
     } else {
-        cout<<"Shit-USE BIG M METHOD"<<endl;
+         tableau=solveBigM(tableau);
     }
     }
     
@@ -184,11 +170,6 @@ Eigen::MatrixXd Solve::solvetableau(Eigen::MatrixXd& ta, int *x){
         for(int j=0;j<ta.cols();j++) {//spalten
             if(i!=x[0] && copy(i,x[1])!=0){//Berechnung aller anderen Matrixelemente.
                 ta(i,j)-=((copy(x[0],j)/copy(x[0],x[1]))*copy(i,x[1]));
-//                cout<<"i: "<<i<<"   j: "<<j<<endl;
-//                cout<<"neuer Wert: "<<ta(i,j)<<endl;
-//                cout<<"1: "<<copy(x[0],j)<<endl;
-//                cout<<"2: "<<copy(x[0],x[1])<<endl;
-//                cout<<"3: "<<copy(i,x[1])<<endl;
             } else if(i!=x[0] && copy(i,x[1])==0) {//keine änderung wenn pivotspaltenelement null ist
 //                cout<<"keine werteänderung!"<<endl;
                 break;
@@ -236,7 +217,12 @@ bool Solve::finished(Eigen::MatrixXd f){
     }
     return false;
 };
-/* Minimierungsproblem-Transformation:*/
+/* Big-M methode*/
+Eigen::MatrixXd Solve::solveBigM(Eigen::MatrixXd& ta){
+    cout<<"Shit-USE BIG M METHOD"<<endl;
+    Eigen::MatrixXd x(2,2);
+    return x.Random();
+}
  
 Solve::~Solve(){
     

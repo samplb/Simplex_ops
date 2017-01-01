@@ -26,6 +26,8 @@ public:
     /*returns a Eigen Matrix after finding a pivot and calculate all other coefficients new.*/
     Eigen::MatrixXd solvetableau(Eigen::MatrixXd& ta, int* x);
     double* lpsolve(int n, double* c, int k, double** A, double* b,bool minim);
+    //Funktion zum Lösen beim Auftreten negativer Koeffizienten in vector b
+    Eigen::MatrixXd solveBigM(Eigen::MatrixXd& ta);
     /*returns true, if no negative coefficients in ZF*/
     bool finished(Eigen::MatrixXd f);
     ~Solve();

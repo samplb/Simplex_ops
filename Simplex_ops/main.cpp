@@ -19,21 +19,27 @@
 #include"Solve.h"
 using namespace std;
 
-int main(int argc, char** argv) {
+int main() {
     int z=0;
-    string werteuebergabe;
+    string werteuebergabe;//in diesem string sind die daten
     int n=0;
     int k=0;
     int option=0;
-    bool minprob=false;
-    bool end=true;
+    bool minprob=false;//minimieren?
+    bool end=true;//menü beenden
     cout<<"Welcome to our Program: Simplex-EasySolver\n"<<endl;
     do{
         cout<<"Please input the number of one of those options: "
             "\n 1 -path\n 2 -help\n 3 -Maximierungsproblem\n 4 -Problem with BigM-Method\n 5 -Miniemierungsproblem\n 6 -exit"<<endl;
+        cin.clear();
         cin>>option;
+        if(!(option > 0 && option<7) || cin.fail()){
+            option=2;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cout<<"Please check your Input\n"<<endl;
+        }
         switch(option){
-            case 0: break;
             case 2: cout<<"Help:\n Please choose one of the options. You just have to choose a number and follow the next steps."
                     "\n-path: path to file in fomat: C:/Users/../x.txt"
                     "\n-help: shows this help menue"
@@ -53,8 +59,10 @@ int main(int argc, char** argv) {
                     end=false;
                     minprob=true;
                     break;
-            case 6: return 1;
+            case 6: cout<<"Programm closed"<<endl;
+                    return 1;
             default:cin.clear();
+            cout<<"Please check you Input"<<endl;
                     break;
 //                    C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt
             case 1: 
@@ -71,15 +79,15 @@ int main(int argc, char** argv) {
                     string path;
                     cin.clear();
                     cin>>path;
-                    ifstream filestream(path,ios::binary);
-                    filestream.seekg(0,ios::end);
+                   /* ifstream filestream(path,ios_base::binary);//opens stream im binarymodus
+                    filestream.seekg(0,ios_base::end);//setzt marker an das ende des streams
                     int length;
-                    length=filestream.tellg();
-                    filestream.seekg(0,ios::beg);
-                    char buffer[length];
-                    filestream.read(buffer,length);
-                    werteuebergabe=buffer;
-                    filestream.close();
+                    length=filestream.tellg();//liest die letzte Stelle aus.
+                    filestream.seekg(0,ios_base::beg);//setzt den marker wieder an den anfang
+                    char buffer[length];//erzeugt char mit richtiger länge
+                    filestream.read(buffer,length);//liest stream in char ein
+                    werteuebergabe=buffer;//convert char in stream
+                    filestream.close();*/
                     end=false;
                    
                     break;
@@ -114,7 +122,7 @@ int main(int argc, char** argv) {
     double c[n];
     double b[k];
     zaelwert+=2;//beginn 2te zeile
-    double **A=nullptr;
+    double **A;
     //array erzeugen mit n spatlten und k zeilen.
     A=new double* [n];
     for(int i=0; i<n;i++){
@@ -159,7 +167,7 @@ int main(int argc, char** argv) {
         cout<<"x"<<zz+1<<": "<<zwert[zz]<<endl;
 //        cout<<zwert[zz]<<" / ";
     }
-    cout<<"optimaler Maximalwert: "<<zwert[n+k]<<endl;
+    cout<<"optimaler Wert: "<<zwert[n+k]<<endl;
     for(int j=0; j<n;j++)  
         delete [] A[j];
     delete [] A;
