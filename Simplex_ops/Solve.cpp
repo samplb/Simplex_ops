@@ -15,9 +15,39 @@ Solve::Solve(){
 //    cout<<"Start solvefunc"<<endl;
 
 };
+/*Funktion zur Ausgangstableauerstellung bei der Maximierung der Funktion*/
 Eigen::MatrixXd Solve::minimieren(int n, double* c, int k, double** A, double* b){
-  
+    cout<<"startmin"<<endl;
+    Eigen::MatrixXd tableau(n+1,n+k+1);//ausgangstabelle
+    tableau.setZero();
+//  Adds values of vector b
+//    cout<<"b"<<endl;
+    int col=n+k+1;
+    for(int i=0;i<k;i++){ 
+        tableau(0,i)=b[i]*-1;
+    }
+//    adds values of vector c
+//    cout<<"c"<<endl;
+    for(int j=0;j<(n);j++){
+        tableau(1+j,col-1)=(c[j]);
+    }
+//    adds values of matrix A and Schlupfvariablen
+//    cout<<"A"<<endl;
+    for(int l=0;l<n;l++){//spalte
+        tableau(l+1,l+k)=1;
+////        cout<<"A1"<<endl;
+        for(int m=0;m<k;m++){//zeile
+//            cout<<"A2"<<endl;
+            tableau(l+1,m)=A[l][m];
+//     A[spalte][zeile]
+//            cout<<A[l][m]<<"    ";
+        }
+    }
+    cout<<"tableau:\n"<<tableau<<endl;
+        return tableau;
+    
 }
+/*Funktion zur Ausgangstableauerstellung bei der Maximierung der Funktion*/
 Eigen::MatrixXd Solve::maximieren(int n, double* c, int k, double** A, double* b){
     Eigen::MatrixXd tableau(k+1,n+k+1);//ausgangstabelle
     tableau.setZero();
@@ -33,7 +63,7 @@ Eigen::MatrixXd Solve::maximieren(int n, double* c, int k, double** A, double* b
     for(int l=0;l<k;l++){
         tableau(l+1,n+l)=1;
         for(int m=0;m<n;m++){
-            tableau(l+1,m)=A[m][l];    
+            tableau(l+1,m)=A[m][l];
         }
     }
     cout<<"tableau:\n"<<tableau<<endl;
@@ -53,23 +83,22 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
     for(int xxx=0;xxx<k;xxx++){
         bV[xxx]=xxx+n;
     }
-    for(int i=0;i<k;i++){
-        if(b[i]<0) {
-            negb=true;
-        }
-    }
-    Eigen::MatrixXd tableau;
+    
     if(minim){
-        cout<<"Minimierung:"<<endl;
+//        cout<<"Minimierung:"<<endl;
         Eigen::MatrixXd tableau(n+1,col);//ausgangstabelle
         tableau.setZero();
         tableau=minimieren(n,c,k,A,b);
         int *pivot;
-    int count=0;
-    cout<<"Das Ausgangstableau: \n"<<tableau<<endl<<"____________________________________________\n\n"<<endl;
-    if(!negb) {
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(c[i]<0) {
+                negb=true;
+            }
+        }
+        cout<<"Das Ausgangstableau: \n"<<tableau<<endl<<"____________________________________________\n\n"<<endl;
+        if(!negb) {
          while(!finished(tableau)){
-//        cout<<"Tableau: "<<tableau<<endl;
             pivot=getPivot(tableau);
             int rr=pivot[0]-1;
             bV[rr]=pivot[1];
@@ -82,15 +111,17 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
 //      cout<<"Das Pivotelement ist in spalte/zeile: "<<pivot[1]<<"/"<<pivot[0]<<endl;
 //      cout<<"Berechnungstableau:\t"<<count<<"\n"<<tableau<<endl<<"...........................................................................\n"<<endl;
         count++;
+        
+        cout<<"Tableau: \n"<<tableau<<endl;
     }
-    Eigen::VectorXd ergeb(k+1);
-    ergeb=tableau.col(col-1);
-//    cout<<"egeb:"<<ergeb<<endl;
-    for(int x=0;x<k;x++){
-        int stelle=bV[x];
-        answer[stelle]=ergeb(x+1);
+    Eigen::VectorXd ergeb(col);
+    ergeb=tableau.row(0);
+    cout<<"egeb:"<<ergeb<<endl;
+    for(int x=0;x<n;x++){
+        answer[x]=ergeb(x+k);
+//        cout<<answer[x]<<"    ";
     }
-    answer[col-1]=ergeb(0);
+    answer[col-1]=ergeb(col-1);
     delete [] bV;
     return answer;
     } else {
@@ -104,6 +135,11 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
         tableau=maximieren(n,c,k,A,b);
         int *pivot;
     int count=0;
+    for(int i=0;i<k;i++){
+        if(b[i]<0) {
+            negb=true;
+        }
+    }
     cout<<"Das Ausgangstableau: \n"<<tableau<<endl<<"____________________________________________\n\n"<<endl;
     if(!negb) {
          while(!finished(tableau)){

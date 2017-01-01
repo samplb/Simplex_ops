@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     cout<<"Welcome to our Program: Simplex-EasySolver\n"<<endl;
     do{
         cout<<"Please input the number of one of those options: "
-            "\n 1 -path\n 2 -help\n 3 -Standardproblem\n 4 -Problem with BigM-Method\n 5 -exit"<<endl;
+            "\n 1 -path\n 2 -help\n 3 -Maximierungsproblem\n 4 -Problem with BigM-Method\n 5 -Miniemierungsproblem\n 6 -exit"<<endl;
         cin>>option;
         switch(option){
             case 0: break;
@@ -49,7 +49,11 @@ int main(int argc, char** argv) {
             case 4: werteuebergabe="2 2\n1 3\n-1 -2 -2\n1 1 3\n";//von aufgabensammlung.txt bsp. 5
                     end=false;
                     break;
-            case 5: return 1;
+            case 5: werteuebergabe="2 3\n8 12\n0.1 0.2 1\n0.2 0.1 0.8\n0.1 0.6 1.8\n";//von http://www.gm.fh-koeln.de/~hk/lehre/ala/ws0506/Praktikum/Projekt/A_blau/Simplex_Dokumentation.pdf S.10
+                    end=false;
+                    minprob=true;
+                    break;
+            case 6: return 1;
             default:cin.clear();
                     break;
 //                    C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt
@@ -150,7 +154,7 @@ int main(int argc, char** argv) {
     
     Solve r;
     double *zwert=r.lpsolve(n,c,k,A,b,minprob);
-    cout<<"Lösung:"<<endl;
+    cout<<"\nLösung:"<<endl;
     for(int zz=0;zz<n;zz++){
         cout<<"x"<<zz+1<<": "<<zwert[zz]<<endl;
 //        cout<<zwert[zz]<<" / ";
@@ -159,7 +163,7 @@ int main(int argc, char** argv) {
     for(int j=0; j<n;j++)  
         delete [] A[j];
     delete [] A;
-    cout<<endl<<"end"<<endl;
+//    cout<<endl<<"end"<<endl;
     return 0;
 }
 

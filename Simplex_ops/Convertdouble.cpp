@@ -14,7 +14,7 @@ using namespace std;
 
 /*This function returns all numbers separetet with blank as a vector with double values.*/
 vector<double> Convertdouble::convertstring(string x) {
-    cout<<"Start Convertdouble.cpp"<<endl;
+//    cout<<"Start Convertdouble.cpp"<<endl;
     int ab=x.length()+1;
     vector<double> arr;
     double u=0;
