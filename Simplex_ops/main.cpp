@@ -29,8 +29,8 @@ int main() {
     bool end=true;//menü beenden
     cout<<"Welcome to our Program: Simplex-EasySolver\n"<<endl;
     do{
-        cout<<"Please input the number of one of those options: "
-            "\n 1 -path\n 2 -help\n 3 -Maximierungsproblem\n 4 -Problem with BigM-Method\n 5 -Miniemierungsproblem\n 6 -exit"<<endl;
+        cout<<"\t Options:\nPlease input the number of one of those options: "
+            "\n 1 -path\n 2 -help\n 3 -Maximierungsproblem\n 4 -Problem with BigM-Method\n 5 -Minimierungsproblem\n 6 -exit"<<endl;
         cin.clear();
         cin>>option;
         if(!(option > 0 && option<7) || cin.fail()){
@@ -62,7 +62,7 @@ int main() {
             case 6: cout<<"Programm closed"<<endl;
                     return 1;
             default:cin.clear();
-            cout<<"Please check you Input"<<endl;
+            cout<<"Please check you Input!"<<endl;
                     break;
 //                    C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt
             case 1: 
@@ -71,15 +71,47 @@ int main() {
                         cout<<"Minimierung('1') oder Maximierung('2') des Problems? Bitte geben Sie die Zahl ein: "<<endl;
                         int minim=0;
                         cin>>minim;
+			if(!(minim != 1 || minim!=2) || cin.fail()){
+                            minim=0;
+                            cin.clear();
+                            cin.ignore(256,'\n');
+                            ok=true;		
+                        }
                         if(minim==1){minprob=true;}
                         else if(minim==2){minprob=false;}
                         else {ok=true;}
                     } while(ok);
                     cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
                     string path;
+                    int siz=900;
+                    char temp[siz];
                     cin.clear();
-                    cin>>path;
-                   /* ifstream filestream(path,ios_base::binary);//opens stream im binarymodus
+                    cin.ignore(256,'\n');
+                    cin.getline(temp,siz);
+                    cout<<temp<<endl;
+                    path=temp;
+//                    cout<<"\n ---------------------------------------------\nNun würde die Berechnung starten, aber leider wird die Version mit \n\t'ifstream.filestream' \nam Almighty nicht unterstützt, weshalb der Einlesebereich ausgeklammert wurde.\n----Wir bitten um Verständnis----\n \n"<<endl;
+                  /*  try{
+                        ifstream dateistream(path,ifstream::in);
+                        char buffer=dateistream.get();
+                        while(dateistream.good()) {
+                            cout<<buffer<<"  ";
+                            buffer=dateistream.get();
+                            werteuebergabe+=buffer;
+                        }
+                        dateistream.close();
+                        
+                        while(!dateistream.eof()){
+                            dateistream >> buffer;
+                            cout<<buffer<<endl;
+                        }
+                        
+                    } catch(fstream::failure a){
+                        a.~runtime_error();
+                        cout<<"error fstream"<<endl;
+                    }
+                    
+                    ifstream filestream(path,ios_base::binary);//opens stream im binarymodus
                     filestream.seekg(0,ios_base::end);//setzt marker an das ende des streams
                     int length;
                     length=filestream.tellg();//liest die letzte Stelle aus.
@@ -88,8 +120,20 @@ int main() {
                     filestream.read(buffer,length);//liest stream in char ein
                     werteuebergabe=buffer;//convert char in stream
                     filestream.close();*/
+                    cout<<endl<<endl<<"  pfad: "<<path<<endl;
+                    string tem;
+                    ifstream x(path);
+                    if(x.is_open()){
+                        while(getline(x,tem)){
+                            werteuebergabe+=tem+"\n";
+                        }
+                        x.close();
+                    } else {
+                        cout<<"File not found"<<endl;
+                        return 1;
+                    }
+                    cout<<"\n eingabe: "<<werteuebergabe<<endl;
                     end=false;
-                   
                     break;
         }
     } while(end);
