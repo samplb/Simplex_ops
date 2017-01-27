@@ -70,7 +70,8 @@ Eigen::MatrixXd Solve::maximieren(int n, double* c, int k, double** A, double* b
         return tableau;
 }
 
-/* returns a double array in the format of: xxxxxxxx??*/
+/* returns a double array in the format of:  Alle Werte der Variablen, 
+ * erst x und dann schlupfvariablen, letzte stelle ist Z-Wert*/
 double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim){
     // A hat A[zeilen][spalten];spalten ist n+k+1 wegen schlupfvariablen und der 
     bool negb=false;//if true, bigM method:
@@ -156,12 +157,14 @@ double* Solve::lpsolve(int n, double* c, int k, double** A, double* b,bool minim
     for(int x=0;x<k;x++){
         int stelle=bV[x];
         answer[stelle]=ergeb(x+1);
-//        cout<<"   answer: "<<answer[stelle]<<endl;
     }
-    
-    answer[col-1]=ergeb(0);
+    Eigen::VectorXd z=tableau.row(0);
+//    cout<<"Z: "<<z<<endl;
     for(int ii=0;ii<col;ii++){
-        cout<<"   answer: "<<answer[ii]<<endl;;
+        if(z(ii)!=0){
+            answer[ii]=z(ii);
+        }
+//        cout<<"a: "<<answer[ii]<<"   ";
     }
     delete [] bV;
     return answer;
@@ -184,8 +187,8 @@ Eigen::MatrixXd Solve::solvetableau(Eigen::MatrixXd& ta, int *x){
             if(i!=x[0] && copy(i,x[1])!=0){//Berechnung aller anderen Matrixelemente.
                 ta(i,j)-=((copy(x[0],j)/copy(x[0],x[1]))*copy(i,x[1]));
 //                cout<<ta(i,j)<<"-="<<copy(x[0],j)<<"/"<<copy(x[0],x[1])<<"*"<<copy(i,x[1])<<endl;
-            } else if(i!=x[0] && copy(i,x[1])==0) {//keine änderung wenn pivotspaltenelement null ist
-//                cout<<"keine werteänderung!"<<endl;
+            } else if(i!=x[0] && copy(i,x[1])==0) {//keine aenderung wenn pivotspaltenelement null ist
+//                cout<<"keine werteaenderung!"<<endl;
                 break;
             } else if(i==x[0]) {//if pivotzeile, alles durch das Pivotelement dividieren.
                 ta(i,j)/=copy(x[0],x[1]);

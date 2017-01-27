@@ -14,11 +14,17 @@
 #include<string>
 #include<cmath>
 #include<vector>
+#include <limits>
 //include headerfiles
 #include"Convertdouble.h"
 #include"Solve.h"
 using namespace std;
 
+void wait(){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+}
 int main() {
     int z=0;
     string werteuebergabe;//in diesem string sind die daten
@@ -26,7 +32,7 @@ int main() {
     int k=0;
     int option=0;
     bool minprob=false;//minimieren?
-    bool end=true;//menü beenden
+    bool end=true;//menue beenden
     cout<<"Welcome to our Program: Simplex-EasySolver\n"<<endl;
     do{
         cout<<"\t Options:\nPlease input the number of one of those options: "
@@ -90,7 +96,7 @@ int main() {
                     cin.getline(temp,siz);
                     cout<<temp<<endl;
                     path=temp;
-//                    cout<<"\n ---------------------------------------------\nNun würde die Berechnung starten, aber leider wird die Version mit \n\t'ifstream.filestream' \nam Almighty nicht unterstützt, weshalb der Einlesebereich ausgeklammert wurde.\n----Wir bitten um Verständnis----\n \n"<<endl;
+//                    cout<<"\n ---------------------------------------------\nNun wuerde die Berechnung starten, aber leider wird die Version mit \n\t'ifstream.filestream' \nam Almighty nicht unterstuetzt, weshalb der Einlesebereich ausgeklammert wurde.\n----Wir bitten um Verstaendnis----\n \n"<<endl;
                   /*  try{
                         ifstream dateistream(path,ifstream::in);
                         char buffer=dateistream.get();
@@ -116,7 +122,7 @@ int main() {
                     int length;
                     length=filestream.tellg();//liest die letzte Stelle aus.
                     filestream.seekg(0,ios_base::beg);//setzt den marker wieder an den anfang
-                    char buffer[length];//erzeugt char mit richtiger länge
+                    char buffer[length];//erzeugt char mit richtiger laenge
                     filestream.read(buffer,length);//liest stream in char ein
                     werteuebergabe=buffer;//convert char in stream
                     filestream.close();*/
@@ -158,7 +164,7 @@ int main() {
     int zz=(k*(n+1))+2+n;
 //    creates Matrix and Vectors with values.
     if(z!=zz){
-        cerr<<"Fehler bei der Matrixgröße!"<<"_IstLength-Array_"<<z<<"_shouldLength-Array_"<<zz<<endl;
+        cerr<<"Fehler bei der Matrixgroeße!"<<"_IstLength-Array_"<<z<<"_shouldLength-Array_"<<zz<<endl;
         cerr<<"Resize Array to should be-size, please check for errors:"<<endl;
         temp.resize(zz);
     }
@@ -206,16 +212,46 @@ int main() {
     
     Solve r;
     double *zwert=r.lpsolve(n,c,k,A,b,minprob);
-    cout<<"\nLösung:"<<endl;
+    cout<<"\nLoesung:"<<endl;
     for(int zz=0;zz<n;zz++){
         cout<<"x"<<zz+1<<": "<<zwert[zz]<<endl;
 //        cout<<zwert[zz]<<" / ";
     }
     cout<<"optimaler Wert: "<<zwert[n+k]<<endl;
+    
+    cout<<"\n \nSchlupfvariablen:"<<endl;
+    for(int yy=n;yy<n+k;yy++){
+        cout<<"y"<<yy+1<<": "<<zwert[yy]<<endl;
+    }
+    
+    
+//-------------------------------------------------------------------------------------------------------------------
+
+
+    
+    cout<<"\nSensibilitaetsanalyse: "<<endl;
+    for(int xx=n;xx<n+k;xx++){
+        if(zwert[xx]!=0){
+            double temp=zwert[n+k]-zwert[xx];
+            cout<<"\tWenn Sie die Schlupfvariablen y"<<xx+1<<" um 1 erhöhen, sinkt auch"
+                    "\n\tbei der Bedingung "<<xx-n+1<<" der Wert b: "<<b[xx-n]<<" auf "
+                    <<b[xx-n]-1<<".\n\tDer Optimalwert ändert sich dadurch auf "
+                    ""<<temp<<"("<<zwert[n+k]<<zwert[xx]*-1<<")."<<endl<<
+                    "Umgekehrt, wenn Sie b um 1 erhoehen, kann Z um den Wert "
+                    <<zwert[xx]<<" erhoeht werden"<<endl<<endl;
+        } else {
+            cout<<"\tDie Variable y"<<xx+1<<" ist ein Buffer im Wert von "<<zwert[xx]<<" "
+                    "der Bedingung "<<xx-n+1<<endl;
+        }
+        
+    }
+    cout<<"\nHinweis:\tDie genauen Aenderungen der einzelnen Variablen "
+            "sind im Tableau abzulesen."<<endl;
     for(int j=0; j<n;j++)  
         delete [] A[j];
     delete [] A;
 //    cout<<endl<<"end"<<endl;
+    wait();
     return 0;
 }
 
