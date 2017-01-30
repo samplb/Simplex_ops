@@ -6,22 +6,26 @@
 ## Synopsis
 
 
-Dieses Programm berechnet ein lineares Optimierunsproblem in der Form von ZF->max. Diesem einfachen Konsolenprogramm gibt man den Pfad zur Textdatei bekannt, wo die Koeffizienten gespeichert sind. Siehe weiter unten unter Tests. 
+Dieses Programm berechnet ein lineares Optimierunsproblem. Diesem einfachen Konsolenprogramm gibt man den Pfad zur Textdatei bekannt, wo die Koeffizienten gespeichert sind. Für Details siehe weiter unten unter Tests. 
+Nachdem der Pfad bekanntgegeben wurde, gibt man noch bekannt ob Minimiert oder Maximiert wird und das Programm berechnet alle Variablen und gibt eine Einfache Sensibilitätsanalyse aus.
+Im Menü findet man optional noch Beispiele.
 
 ## Code Example
 
-We use the Library of Eigen, because there are more options fo calculate the values.
-Main.cpp oranizes everything and awaits the parameters
-Convertdouble.cpp converts the Textfile in a double-array
-solve.cpp takes the Eigen Matrix and returns an array with the resolution. 
+Wir nutzen die Eigenbibliothek für die Matrixen.
+main.cpp verwaltet das Programm, bietet die Ausgaben und erwartet und verwaltet die Eingaben.
+Convertdouble.cpp konvertiert die Textdateien in ein double-array.
+solve.cpp berechnet aus der erstellten Matrix die Lösungswerte.
 
 ## Motivation
 
 Dieses Programm entstand im Zuge eines Programmierprojektes für PR OPS im WS2016 an der Universität Wien. 
 
 ## Installation
-
+Download und installation von der Eigen-Bibliothek (siehe unter Librarys).
 Compile: g++ -I /home/..../eigen -g -Wall main.cpp Solve.cpp Convertdouble.cpp -o simplex_ops
+
+Textfiles mit den Parametern(siehe Tests).
 
 ## Librarys
 
@@ -32,7 +36,6 @@ Dafür muss man dem Compiler den Pfad bekannt geben(http://eigen.tuxfamily.org/d
 Das Programm fordert beim Programmstart die Eingabe eines Pfades im Format: 
 'C:/Users/xxx/Documents/.../testfile.txt' 
 Dieses File soll mit den benötigten Werten gefüllt und mit Leerzeichen getrennt unter Einhaltung folgender Vorgabe erstellt werden:
-
 n k
 ZF-x1 ZF-x2 ZF-x3
 NB-x1 NB-x2 NB-x3 NB-y1
@@ -40,14 +43,20 @@ NB-x1 NB-x2 NB-x3 NB-y2
 NB-x1 NB-x2 NB-x3 NB-y
 
 Erklärung:
-...
+n....Anzahl der Variablen
+k....Anzahl der Nebenbedingungen
+x_...die zu berechnenden Werten
+y_...die Bedingungen der Nebenbedingungen.
+
+Wenn Zielfunktion(ZF) maximiert, müssen alle Nebenbedingungen(NB) in der Form x1+x2 <= y sein,
+wird die ZF minimiert, müssen alle Nebenbedingungen in der Form x1+x2 >= y sein.
 
 ## Contributors
 
 1. Lakinger Sabrina-teammember
 2. Stockinger Alwin-teammember
 3. Hauser Florian-teammember
-4. Sampl Bernhard-developer
+4. Sampl Bernhard(a1401504@unet.univie.ac.at)-developer
 
 ##Git
 https://github.com/samplb/a1401504-unet.univie.ac.at.git
