@@ -15,6 +15,8 @@
 #include<cmath>
 #include<vector>
 #include <limits>
+////#include<exception>
+#include <iomanip>
 //include headerfiles
 #include"Convertdouble.h"
 #include"Solve.h"
@@ -26,6 +28,7 @@ void wait(){
     cin.get();
 }
 int main() {
+    
     int z=0;
     string werteuebergabe;//in diesem string sind die daten
     int n=0;
@@ -68,7 +71,7 @@ int main() {
             case 6: cout<<"Programm closed"<<endl;
                     return 1;
             default:cin.clear();
-            cout<<"Please check you Input!"<<endl;
+                    cout<<"Please check you Input!"<<endl;
                     break;
 //                    C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt
             case 1: 
@@ -87,48 +90,15 @@ int main() {
                         else if(minim==2){minprob=false;}
                         else {ok=true;}
                     } while(ok);
-                    cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
-                    string path;
+                   cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
                     int siz=900;
-                    char temp[siz];
+                    char *temp[siz];
                     cin.clear();
                     cin.ignore(256,'\n');
-                    cin.getline(temp,siz);
-                    cout<<temp<<endl;
-                    path=temp;
+                    cin.getline(*temp,siz);
 //                    cout<<"\n ---------------------------------------------\nNun wuerde die Berechnung starten, aber leider wird die Version mit \n\t'ifstream.filestream' \nam Almighty nicht unterstuetzt, weshalb der Einlesebereich ausgeklammert wurde.\n----Wir bitten um Verstaendnis----\n \n"<<endl;
-                  /*  try{
-                        ifstream dateistream(path,ifstream::in);
-                        char buffer=dateistream.get();
-                        while(dateistream.good()) {
-                            cout<<buffer<<"  ";
-                            buffer=dateistream.get();
-                            werteuebergabe+=buffer;
-                        }
-                        dateistream.close();
-                        
-                        while(!dateistream.eof()){
-                            dateistream >> buffer;
-                            cout<<buffer<<endl;
-                        }
-                        
-                    } catch(fstream::failure a){
-                        a.~runtime_error();
-                        cout<<"error fstream"<<endl;
-                    }
-                    
-                    ifstream filestream(path,ios_base::binary);//opens stream im binarymodus
-                    filestream.seekg(0,ios_base::end);//setzt marker an das ende des streams
-                    int length;
-                    length=filestream.tellg();//liest die letzte Stelle aus.
-                    filestream.seekg(0,ios_base::beg);//setzt den marker wieder an den anfang
-                    char buffer[length];//erzeugt char mit richtiger laenge
-                    filestream.read(buffer,length);//liest stream in char ein
-                    werteuebergabe=buffer;//convert char in stream
-                    filestream.close();*/
-                    cout<<endl<<endl<<"  pfad: "<<path<<endl;
-                    string tem;
-                    ifstream x(path);
+                  string tem;
+                     ifstream x(*temp,ios_base::in);
                     if(x.is_open()){
                         while(getline(x,tem)){
                             werteuebergabe+=tem+"\n";
@@ -136,11 +106,9 @@ int main() {
                         x.close();
                     } else {
                         cout<<"File not found"<<endl;
-                        return 1;
                     }
-                    cout<<"\n eingabe: "<<werteuebergabe<<endl;
+//                    cout<<"\n eingabe: "<<werteuebergabe<<endl;
                     end=false;
-                    break;
         }
     } while(end);
     
@@ -208,20 +176,30 @@ int main() {
 //    cout<<endl<<"ok"<<endl;
     
 //    Start solving problem:
-    
-    
+    double *zwert=NULL;
+        try{
     Solve r;
-    double *zwert=r.lpsolve(n,c,k,A,b,minprob);
-    cout<<"\nLoesung:"<<endl;
+    zwert=r.lpsolve(n,c,k,A,b,minprob);
+        } catch(int a) {
+            if(a==20){
+                cout<<"\nUndefined Values because Pivot is impossible to calculate."<<endl;;
+                return 1;
+            } else if(a==21) {
+                cout<<"\nBig-M Methode is not implemented yet, because not mandatory. please contact the development-team"<<endl;
+                return 2;
+            } else if(a==23) {
+                cout<<"\nUndefined Values in Tableau"<<endl;
+            }
+        }
+    cout<<"\t|\t\n\t|Loesung:"<<endl;
     for(int zz=0;zz<n;zz++){
-        cout<<"x"<<zz+1<<": "<<zwert[zz]<<endl;
-//        cout<<zwert[zz]<<" / ";
+        cout<<"\t|\tx"<<zz+1<<": "<<fixed<<setprecision(2) <<zwert[zz]<<endl;
     }
-    cout<<"optimaler Wert: "<<zwert[n+k]<<endl;
+    cout<<"\t|optimaler Wert: "<<fixed<<setprecision(2)<<zwert[n+k]<<endl;
     
-    cout<<"\n \nSchlupfvariablen:"<<endl;
+    cout<<"\t|\t\n\t|\n\t|Schlupfvariablen:"<<endl;
     for(int yy=n;yy<n+k;yy++){
-        cout<<"y"<<yy+1<<": "<<zwert[yy]<<endl;
+        cout<<"\t|\ty"<<yy+1<<": "<<fixed<<setprecision(2)<<zwert[yy]<<"\n";
     }
     
     
@@ -229,7 +207,7 @@ int main() {
 
 
     
-    cout<<"\nSensibilitaetsanalyse: "<<endl;
+    cout<<endl<<"\nSensibilitaetsanalyse: "<<endl;
     for(int xx=n;xx<n+k;xx++){
         if(zwert[xx]!=0){
             double temp=zwert[n+k]-zwert[xx];
@@ -250,8 +228,7 @@ int main() {
     for(int j=0; j<n;j++)  
         delete [] A[j];
     delete [] A;
-//    cout<<endl<<"end"<<endl;
-    wait();
+//    wait();
     return 0;
 }
 
