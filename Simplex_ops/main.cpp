@@ -8,16 +8,13 @@
  *
  */
 
-#include <cstdlib>
+//#include <cstdlib>
 #include<iostream>
 #include<fstream>
 #include<string>
-#include<cmath>
+////#include<cmath>
 #include<vector>
-#include <limits>
-////#include<exception>
 #include <iomanip>
-//include headerfiles
 #include"Convertdouble.h"
 #include"Solve.h"
 using namespace std;
@@ -27,78 +24,11 @@ void wait(){
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
-int main() {
-    
-    int z=0;
-    string werteuebergabe;//in diesem string sind die daten
-    int n=0;
-    int k=0;
-    int option=0;
-    bool minprob=false;//minimieren?
-    bool end=true;//menue beenden
-    cout<<"Welcome to our Program: Simplex-EasySolver\n"<<endl;
-    do{
-        cout<<"\t Options:\nPlease input the number of one of those options: "
-            "\n 1 -path\n 2 -help\n 3 -Maximierungsproblem\n 4 -Problem with BigM-Method\n 5 -Minimierungsproblem\n 6 -exit"<<endl;
-        cin.clear();
-        cin>>option;
-        if(!(option > 0 && option<7) || cin.fail()){
-            option=2;
-            cin.clear();
-            cin.ignore(256,'\n');
-            cout<<"Please check your Input\n"<<endl;
-        }
-        switch(option){
-            case 2: cout<<"Help:\n Please choose one of the options. You just have to choose a number and follow the next steps."
-                    "\n-path: path to file in fomat: C:/Users/../x.txt"
-                    "\n-help: shows this help menue"
-                    "\n-3 is normal problem->max and -4 is a problem to solve with the use of Big-M."
-                    "\n-exit: closes Programm"
-                    "\n "
-                    "\n Our Team hopes that you can sucessfully use our small tool and it helps you with your problems."
-                    "\n Contact: a14015xx@unet.univie.ac.at\n \n"<<endl;
-                    break;
-            case 3: werteuebergabe="3 4\n15 20 130\n5 0 0 2\n10 10 0 3\n0 20 20 4\n0 0 50 5";//von aufgabensammlung.txt bsp. 5
-                    end=false;
-                    break;
-            case 4: werteuebergabe="2 2\n1 3\n-1 -2 -2\n1 1 3\n";//von aufgabensammlung.txt bsp. 5
-                    end=false;
-                    break;
-            case 5: werteuebergabe="2 3\n8 12\n0.1 0.2 1\n0.2 0.1 0.8\n0.1 0.6 1.8\n";//von http://www.gm.fh-koeln.de/~hk/lehre/ala/ws0506/Praktikum/Projekt/A_blau/Simplex_Dokumentation.pdf S.10
-                    end=false;
-                    minprob=true;
-                    break;
-            case 6: cout<<"Programm closed"<<endl;
-                    return 1;
-            default:cin.clear();
-                    cout<<"Please check you Input!"<<endl;
-                    break;
-//                    C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt
-            case 1: 
-                    bool ok=false;
-                    do{
-                        cout<<"Minimierung('1') oder Maximierung('2') des Problems? Bitte geben Sie die Zahl ein: "<<endl;
-                        int minim=0;
-                        cin>>minim;
-			if(!(minim != 1 || minim!=2) || cin.fail()){
-                            minim=0;
-                            cin.clear();
-                            cin.ignore(256,'\n');
-                            ok=true;		
-                        }
-                        if(minim==1){minprob=true;}
-                        else if(minim==2){minprob=false;}
-                        else {ok=true;}
-                    } while(ok);
-                   cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
-                    int siz=900;
-                    char *temp[siz];
-                    cin.clear();
-                    cin.ignore(256,'\n');
-                    cin.getline(*temp,siz);
-//                    cout<<"\n ---------------------------------------------\nNun wuerde die Berechnung starten, aber leider wird die Version mit \n\t'ifstream.filestream' \nam Almighty nicht unterstuetzt, weshalb der Einlesebereich ausgeklammert wurde.\n----Wir bitten um Verstaendnis----\n \n"<<endl;
-                  string tem;
-                     ifstream x(*temp,ios_base::in);
+
+string readFile(char temp[]){
+    string werteuebergabe="";
+    string tem;
+    ifstream x(temp,ios_base::in);
                     if(x.is_open()){
                         while(getline(x,tem)){
                             werteuebergabe+=tem+"\n";
@@ -107,39 +37,125 @@ int main() {
                     } else {
                         cout<<"File not found"<<endl;
                     }
-//                    cout<<"\n eingabe: "<<werteuebergabe<<endl;
+    return werteuebergabe;
+}
+ 
+bool getMin(){
+    bool ok=false;//gültige auswahl:
+    bool minprob=false;
+    do{
+        cout<<"Minimierung('1') oder Maximierung('2') des Problems? Bitte geben Sie die Zahl ein: "<<endl;
+        int minim=0;
+        cin>>minim;
+	if(!(minim != 1 || minim!=2) || cin.fail()){
+            minim=0;
+            cin.clear();
+            cin.ignore(256,'\n');
+            ok=true;		
+        }
+        if(minim==1){minprob=true;}
+        else if(minim==2){minprob=false;}
+        else {
+            ok=true;
+        }
+    } while(ok);
+    return minprob;
+}
+int main() {
+    bool finish=true;
+    do{
+    int z=0;
+    string werteuebergabe;//in diesem string sind die daten
+    int n=0;
+    int k=0;
+    int option=0;
+    bool minprob=false;//minimieren?
+    bool end=true;//menue beenden
+    string menu="\tOptions:\n\tPlease input the number of one of those options: "
+                "\n\t\t 1 -path"
+                "\n\t\t 2 -help"
+                "\n\t\t 3 -maximising"
+                "\n\t\t 4 -not implemented"
+                "\n\t\t 5 -minimising"
+                "\n\t\t 6 -close Program";
+    string help=" Help:\n Please choose one of these options. You just have to choose a number and follow the next steps."
+                    "\n\t-1 path: path to file in fomat: /home/../x.txt"
+                    "\n\t-2 help: shows this help menue"
+                    "\n\t-3 maximising is a exampleproblem->max "
+                    "\n\t-4 would be a problem to solve with the use of Big-M."
+                    "\n\t-5 minimizing is a exampleproblem->min"
+                    "\n\t-6 exit: closes Programm"
+                    "\n "
+                    "\n Our Team hopes that you can sucessfully use our small tool and it solves your problems."
+                    "\n Contact: a14015xx@unet.univie.ac.at\n \n";
+    cout<<"\n\nWelcome to our Program: Simplex-EasySolver\n"<<endl;
+    do{
+        cout<<menu<<endl;
+        cin.clear();
+        cin>>option;
+        if(!(option > 0 && option<7) || cin.fail()){
+            cout<<"Please check your Input\n"<<endl;
+            option=2;
+            cin.clear();
+            cin.ignore(256,'\n');
+        }
+        switch(option){
+            case 2: cout<<help<<endl;
+                    break;
+            case 3: werteuebergabe="3 4\n15 20 130\n5 0 0 2\n10 10 0 3\n0 20 20 4\n0 0 50 5";//von aufgabensammlung.txt bsp. 5
+            cout<<"3";
                     end=false;
+                    break;
+            case 4: werteuebergabe="2 2\n1 3\n-1 -2 -2\n1 1 3\n";//von aufgabensammlung.txt bsp. 5
+            cout<<"4!";
+                    end=false;
+                    break;
+            case 5: werteuebergabe="2 3\n8 12\n0.1 0.2 1\n0.2 0.1 0.8\n0.1 0.6 1.8\n";//von http://www.gm.fh-koeln.de/~hk/lehre/ala/ws0506/Praktikum/Projekt/A_blau/Simplex_Dokumentation.pdf S.10
+                    cout<<"5";end=false;
+                    minprob=true;
+                    break;
+            case 6: cout<<"Programm closed"<<endl;
+                    return 0;
+            //default:cin.clear();
+             //cout<<"Please check you Input!"<<endl;
+              //      break;
+//                    C:/Users/Bernhard Sampl/Documents/NetBeansProjects/Simples_OPS/a1401504-unet.univie.ac.at/Simplex_ops/Textfile/ops1.txt
+            case 1: 
+                    minprob=getMin();
+                    cout<<"Filepath 'C:/Users/../x.txt': "<<endl;
+                    int siz=900;
+                    char temp[siz];
+                    cin.clear();
+                    cin.ignore(256,'\n');
+                    cin.getline(temp,siz);
+                    werteuebergabe=readFile(temp);
+                    end=false;
+                    break;
         }
     } while(end);
-    
-    
-    
- 
     //-------------------------------------------------------------------------------------------------------------------
     
     vector<double> temp;
-    
-    cout<<"Starte die Berechnung:\n"<<endl;
+    cout<<"\nStarte die Berechnung:\n"<<endl;
     Convertdouble cs;
-//    cout<<"Array:"<<werteuebergabe<<endl;
+//    gibt ein double array mit den werten zurück.
     temp=cs.convertstring(werteuebergabe);
     n=temp[0];
     k=temp[1];
     z=temp.size();  //amount of elements.
-//    for(int i=0;i<z;i++){
-//        cout<<temp[i]<<" ";
-//    }
+
     int zz=(k*(n+1))+2+n;
 //    creates Matrix and Vectors with values.
     if(z!=zz){
-        cerr<<"Fehler bei der Matrixgroeße!"<<"_IstLength-Array_"<<z<<"_shouldLength-Array_"<<zz<<endl;
-        cerr<<"Resize Array to should be-size, please check for errors:"<<endl;
+        cerr<<"Size of Matrix inkonsistent! "<<"\n_IstLength-Array_"<<z<<"\n_shouldLength-Array_"<<zz<<endl;
+        cerr<<"\nAutomatic resize of Array to should be-size according to k und n values.\nWarning:Result could be wrong:"<<endl;
         temp.resize(zz);
     }
+    
     int zaelwert=0;
     double c[n];
     double b[k];
-    zaelwert+=2;//beginn 2te zeile
+    zaelwert=2;//beginn 2te zeile
     double **A;
     //array erzeugen mit n spatlten und k zeilen.
     A=new double* [n];
@@ -147,7 +163,6 @@ int main() {
         A[i]=new double[k];
     }
     
-    // for Test of new textfile just un-comment all cout<< until row 117 to see the inprogramm-arrays and vectors
     
     
 //    cout<<"c: ";
@@ -176,7 +191,7 @@ int main() {
 //    cout<<endl<<"ok"<<endl;
     
 //    Start solving problem:
-    double *zwert=NULL;
+    double *zwert;
         try{
     Solve r;
     zwert=r.lpsolve(n,c,k,A,b,minprob);
@@ -228,7 +243,9 @@ int main() {
     for(int j=0; j<n;j++)  
         delete [] A[j];
     delete [] A;
-//    wait();
+    cout<<"Press any key"<<endl;
+    wait();
+    }while(finish);
     return 0;
 }
 
